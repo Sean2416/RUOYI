@@ -26,7 +26,7 @@ export default {
   },
   data() {
     return {
-      title: '若依管理系統',
+      title: '振興券客服管理系統',
       logo: logoImg
     }
   }

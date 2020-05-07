@@ -48,14 +48,15 @@ router.beforeEach((to, from, next) => {
       }
     }
   } else {
-    // 沒有token
-    if (whiteList.indexOf(to.path) !== -1) {
-      // 在免登入白名單，直接進入
-      next()
-    } else {
-      next(`/login?redirect=${to.path}`) // 否則全部重定向到登入頁
-      NProgress.done()
-    }
+    next();
+    // // 沒有token
+    // if (whiteList.indexOf(to.path) !== -1) {
+    //   // 在免登入白名單，直接進入
+    //   next()
+    // } else {
+    //   next(`/login?redirect=${to.path}`) // 否則全部重定向到登入頁
+    //   NProgress.done()
+    // }
   }
 })
 

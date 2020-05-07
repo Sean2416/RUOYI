@@ -1,5 +1,5 @@
 module.exports = {
-  title: '若依管理系統',
+  title: '振興券客服管理系統',
 
   /**
    * 是否系統佈局配置

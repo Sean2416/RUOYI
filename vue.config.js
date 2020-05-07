@@ -6,7 +6,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || '若依管理系統' // 標題
+const name = defaultSettings.title || '振興券客服管理系統' // 標題
 
 const port = process.env.port || process.env.npm_config_port || 80 // 埠
 

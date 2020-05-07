@@ -80,15 +80,21 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/dict',
+    path: '/whiteList',
     component: Layout,
     hidden: true,
     children: [
       {
-        path: 'type/data/:dictId(\\d+)',
-        component: () => import('@/views/system/dict/data'),
-        name: 'Data',
-        meta: { title: '字典資料', icon: '' }
+        path: 'query',
+        component: () => import('@/views/CustomerService/WhiteList/Query'),
+        name: 'WhiteListQuery',
+        meta: { title: '白名單查詢', icon: '' }
+      },
+      {
+        path: 'info',
+        component: () => import('@/views/CustomerService/WhiteList/Info'),
+        name: 'WhiteListInfo',
+        meta: { title: '商家資料', icon: '' }
       }
     ]
   },
@@ -99,7 +105,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'log',
-        component: () => import('@/views/monitor/job/log'),
+        component: () => import('@/views/monitor/druid/index'),
         name: 'JobLog',
         meta: { title: '排程日誌' }
       }
