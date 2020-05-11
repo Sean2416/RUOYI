@@ -108,6 +108,60 @@
   background-color: #f9fafc;
 }
 
+.el-table{
+  margin: 25px 0px!important;
+}
+
+.el-card {
+  margin: 15px 30px!important;
+  padding-top: 10px !important;
+  padding-left: 10px !important;
+  font-size: 20px !important;
+}
+
+.el-card__header {
+  border-bottom: 0 !important;
+  min-height: 50px !important;
+}
+
+.el-card__body {
+  padding: 15px 20px 0px 20px !important;
+}
+
+.el-input--medium {
+  font-size: 16px !important;
+}
+
 .el-table .warning-row {
   background: #dbe4f7;
+ }
+
+ .showInfo .el-form-item{
+  border-bottom: 1px solid #dcdfe6 !important;
+}
+
+.showInfo .el-input__inner{
+  border: 0 !important;
+}
+
+.showInfo .el-form-item__label{
+  text-align: left !important;
+  width: 100px !important;
+}
+
+.showInfo .el-input--medium{
+  width: 80% !important;
+}
+
+.showInfo .el-form-item {
+  margin-bottom: 15px !important;
+}
+
+.el-table__expanded-cell[class*=cell] {
+  padding: 10px 50px !important;
+}
+
+.table-expand-item {
+  display: block !important;
+  margin: 0 !important;
 }

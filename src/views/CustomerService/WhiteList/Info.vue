@@ -1,49 +1,34 @@
 <template>
   <div>
     <el-card>
-
-      <el-row :gutter="20">
-        <el-col :span="10">
-          <el-input v-model="storeData.name" disabled>
-            <template slot="prepend">店家名稱</template>
-          </el-input>
-        </el-col>
-        <el-col :span="10">
-          <el-input v-model="storeData.taxNo" disabled>
-            <template slot="prepend">統一編號</template>
-          </el-input>
-        </el-col>
-        <el-col :span="4">
-          <el-button type="primary" plain @click="ShowOnMap()" icon="el-icon-map-location"></el-button>
-        </el-col>
-      </el-row>
-
-      <el-row :gutter="20">
-        <el-col :span="10">
-          <el-input v-model="storeData.phonenumber" disabled>
-            <template slot="prepend">電話</template>
-          </el-input>
-        </el-col>
-        <el-col :span="10">
-          <el-input v-model="storeData.address" disabled>
-            <template slot="prepend">地址</template>
-          </el-input>
-        </el-col>
-      </el-row>
-
-      <el-row :gutter="20">
-        <el-col :span="10">
-          <el-input v-model="storeData.latitude" disabled>
-            <template slot="prepend">經度</template>
-          </el-input>
-        </el-col>
-        <el-col :span="10">
-          <el-input v-model="storeData.longitude" disabled>
-            <template slot="prepend">緯度</template>
-          </el-input>
-        </el-col>
-      </el-row>
-
+      <div slot="header" class="clearfix">
+        <span>白名單資料</span>
+        <el-button style="float: right; margin-right:10px" type="primary" plain @click="ShowOnMap()"
+          icon="el-icon-map-location"></el-button>
+      </div>
+      <el-form class="showInfo">
+        <el-form-item label="名稱">
+          <el-input v-model="storeData.name" readonly></el-input>
+        </el-form-item>
+        <el-form-item label="統編">
+          <el-input v-model="storeData.tax_no" readonly></el-input>
+        </el-form-item>
+        <el-form-item label="負責人">
+          <el-input v-model="storeData.owner" readonly></el-input>
+        </el-form-item>
+        <el-form-item label="地址">
+          <el-input v-model="storeData.address" readonly></el-input>
+        </el-form-item>
+        <el-form-item label="電話">
+          <el-input v-model="storeData.phonenumber" readonly></el-input>
+        </el-form-item>
+        <el-form-item label="電子信箱">
+          <el-input v-model="storeData.email" readonly></el-input>
+        </el-form-item>
+        <el-form-item label="消費場所註記">
+          <el-input v-model="storeData.store_name_mk" readonly></el-input>
+        </el-form-item>
+      </el-form>
     </el-card>
 
   </div>
@@ -60,8 +45,7 @@
       }
     },
     data() {
-      return {
-      }
+      return {}
     },
     methods: {
       ShowOnMap()

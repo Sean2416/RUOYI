@@ -89,12 +89,19 @@ export const constantRoutes = [
         component: () => import('@/views/CustomerService/WhiteList/Query'),
         name: 'WhiteListQuery',
         meta: { title: '白名單查詢', icon: '' }
-      },
+      }
+    ]
+  },
+  {
+    path: '/Coupon',
+    component: Layout,
+    hidden: true,
+    children: [
       {
-        path: 'info',
-        component: () => import('@/views/CustomerService/WhiteList/Info'),
-        name: 'WhiteListInfo',
-        meta: { title: '商家資料', icon: '' }
+        path: 'query',
+        component: () => import('@/views/CustomerService/Coupon/Query'),
+        name: 'CouponQuery',
+        meta: { title: '抵用券狀態查詢', icon: '' }
       }
     ]
   },

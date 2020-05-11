@@ -89,7 +89,7 @@
         if(key==1)
           this.$router.push({ path: '/whiteList/query' })
         if(key==2)
-          this.$router.push({ path: '/whiteList/info' })
+          this.$router.push({ path: '/Coupon/query' })
         if(key==3)
           this.$router.push({ path: '/StoreQuery' })
         if(key==4)
