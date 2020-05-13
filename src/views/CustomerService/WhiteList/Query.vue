@@ -4,7 +4,7 @@
       <div slot="header" class="clearfix">
         <span>白名單查詢</span>
       </div>
-      <el-form status-icon class="queryBlock" :model="query" :rules="rules" ref="query">
+      <el-form  size="mini" status-icon class="queryBlock" :model="query" :rules="rules" ref="query">
         <el-form-item label="統編/證號" prop="identity">
           <el-input placeholder="请输入内容" v-model="query.identity" class="input-with-select" clearable>
             <el-button slot="append" icon="el-icon-search" @click="getStoreInfo"></el-button>

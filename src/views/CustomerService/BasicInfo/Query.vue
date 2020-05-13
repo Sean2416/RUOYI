@@ -4,7 +4,7 @@
       <div slot="header" class="clearfix">
         <span>基本資料查詢</span>
       </div>
-      <el-form status-icon class="queryBlock" :model="query" :rules="rules" ref="query">
+      <el-form size="mini" status-icon class="queryBlock" :model="query" :rules="rules" ref="query">
         <el-form-item label="資料型態">
           <el-select v-model="userType" placeholder="请选择">
             <el-option v-for="item in userTypeOption" :key="item.value" :label="item.label" :value="item.value">
@@ -111,11 +111,7 @@
           latitude: "25.0506120",
           longitude: "121.5252020"
         }
-      },
-      resetForm() {
-        if (this.$refs["query"] != undefined)
-          this.$refs["query"].resetFields();
-      },
+      }
     },
     watch: {
       userType: {
@@ -124,7 +120,7 @@
         handler(val) {
           this.info = {};
           this.identity = null;
-          this.resetForm();
+          this.resetForm("query");
         }
       }
     }

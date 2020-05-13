@@ -50,12 +50,7 @@
         handler(val) {
           var vi = this;
           vi.dataList.forEach(element => {
-            let storeType = $.grep(vi.options.storeType, function (r) {
-              return r.value == element.storeType;
-            })
-            if(storeType.length > 0)
-             element.storeTypeLabel = storeType[0].label;
-             
+            element.storeTypeLabel  =  vi.convertStoreType(element.storeType);             
             let usedType = $.grep(vi.options.usedType, function (r) {
               return r.value == element.isUsed;
             })

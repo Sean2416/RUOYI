@@ -4,7 +4,7 @@
       <div slot="header" class="clearfix">
         <span>消費者查詢</span>
       </div>
-      <el-form status-icon class="queryBlock" :model="query" :rules="rules" ref="query">
+      <el-form status-icon class="queryBlock" size="mini" :model="query" :rules="rules" ref="query">
         <el-form-item label="身分證號碼" prop="identity">
           <el-input placeholder="请输入内容" v-model="query.identity" class="input-with-select" clearable>
             <el-button slot="append" icon="el-icon-search" @click="getUserInfo"></el-button>
@@ -21,7 +21,7 @@
         <el-button style="float: right; margin-right:10px" type="danger" plain icon="el-icon-refresh"
           v-if="coupon.couponType ==='P'" @click="resetPrintStatus()">重置列印狀態</el-button>
       </div>
-      <el-form class="showInfo">
+      <el-form class="showInfo" >
         <el-form-item label="領取方式">
           <el-input v-model="couponTypeLabel" readonly></el-input>
         </el-form-item>
@@ -154,7 +154,7 @@
                   consumeTime: "2020/06/03 10:23:45",
                   amount: "50",
                   storeName: "美味佳小吃店",
-                  storeType: "0"
+                  storeType: "0,1"
                 },
                 {
                   couponId: "s3042908c1727978c77cf",
@@ -177,7 +177,7 @@
                 consumeTime: "2020/06/03 10:23:45",
                 amount: "500",
                 storeName: "IKEA宜家家居 敦北店",
-                storeType: "2"
+                storeType: "1,2"
               }]
             },
             {
