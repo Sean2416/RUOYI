@@ -4,16 +4,13 @@
       <div slot="header" class="clearfix">
         <span>消費者查詢</span>
       </div>
-      <el-row :gutter="10">
-        <el-col :xs="18" :sm="18" :md="12" class="infoBlock">
-          <el-input v-model="queryId">
-            <template slot="prepend">身分證號碼</template>
+      <el-form status-icon class="queryBlock">
+        <el-form-item label="身分證號碼" prop="checkPass">
+          <el-input placeholder="请输入内容" v-model="identity" class="input-with-select" clearable>
+            <el-button slot="append" icon="el-icon-search" @click="getUserInfo"></el-button>
           </el-input>
-        </el-col>
-        <el-col :span="2">
-          <el-button icon="el-icon-search" @click="getUserInfo()"></el-button>
-        </el-col>
-      </el-row>
+        </el-form-item>
+      </el-form>
     </el-card>
 
     <consumerInfo :user=user></consumerInfo>
@@ -81,7 +78,7 @@
   import couponInfoTable from './CouponInfoTable';
 
   export default {
-    name: "CouponQuery",
+    name: "CouponTransactionHistory",
     components: {
       consumerInfo,
       couponInfoTable

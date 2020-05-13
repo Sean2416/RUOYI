@@ -93,15 +93,34 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/Coupon',
+    path: '/coupon',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: 'consumerQuery',
+        component: () => import('@/views/CustomerService/Coupon/ConsumerQuery'),
+        name: 'CouponConsumerQuery',
+        meta: { title: '抵用券狀態查詢', icon: '' }
+      },
+      {
+        path: 'transactionHistory',
+        component: () => import('@/views/CustomerService/Coupon/TransactionHistory'),
+        name: 'CouponTransactionHistory',
+        meta: { title: '消費紀錄查詢', icon: '' }
+      }
+    ]
+  },
+  {
+    path: '/basicInfo',
     component: Layout,
     hidden: true,
     children: [
       {
         path: 'query',
-        component: () => import('@/views/CustomerService/Coupon/Query'),
-        name: 'CouponQuery',
-        meta: { title: '抵用券狀態查詢', icon: '' }
+        component: () => import('@/views/CustomerService/BasicInfo/Query'),
+        name: 'basicInfoQuery',
+        meta: { title: '消費者/店家基本資料查詢', icon: '' }
       }
     ]
   },

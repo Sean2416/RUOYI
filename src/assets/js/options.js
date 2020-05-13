@@ -25,6 +25,16 @@ module.exports = {
     value: '3',
     label: '藝文'
   }],
+  userType: [{
+    value: 'S',
+    label: '店家'
+  }, {
+    value: 'H',
+    label: '旅宿業者'
+  }, {
+    value: 'C',
+    label: '消費者'
+  }],
   usedType: [{
     value: '0',
     label: '未使用'

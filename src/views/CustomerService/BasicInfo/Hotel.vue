@@ -16,9 +16,6 @@
         <el-form-item label="統編">
           <el-input v-model="hotelData.businessNo" readonly></el-input>
         </el-form-item>
-        <el-form-item label="證件號碼">
-          <el-input v-model="hotelData.identity" readonly></el-input>
-        </el-form-item>
         <el-form-item label="旅宿地址">
           <el-input v-model="hotelData.address" readonly></el-input>
         </el-form-item>
@@ -42,7 +39,7 @@
     methods: {
       ShowOnMap()
       {
-        window.open("https://www.google.com/maps/search/?api=1&query=" + this.storeData.latitude + "," + this.storeData.longitude);
+        window.open("https://www.google.com/maps/search/?api=1&query=" + this.hotelData.latitude + "," + this.hotelData.longitude);
       }
     },
   };

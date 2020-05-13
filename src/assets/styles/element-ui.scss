@@ -125,7 +125,7 @@
 }
 
 .el-card__body {
-  padding: 15px 20px 0px 20px !important;
+  padding: 10px 20px 0px 20px !important;
 }
 
 .el-input--medium {
@@ -164,4 +164,45 @@
 .table-expand-item {
   display: block !important;
   margin: 0 !important;
+}
+
+
+.queryBlock{
+  width: 60% !important;
+}
+
+.queryBlock .el-form-item__label{
+  width: 20% !important;
+}
+
+.queryBlock .el-form-item .el-form-item__content .el-select{
+  width: 70% !important;
+} 
+
+.queryBlock .el-form-item .el-form-item__content .el-select .el-input{
+  width: 100% !important;
+} 
+
+.queryBlock .el-form-item .el-form-item__content .el-input{
+  width: 70% !important;
+} 
+
+.el-form-item__error{
+  display: none;
+}
+
+@media (max-width: 800px){
+
+  .queryBlock{
+    width: 95% !important;
+  }
+
+  .queryBlock .el-form-item__label{
+    width: 30% !important;
+  }
+  
+  .queryBlock .el-form-item .el-form-item__content .el-select{
+    width: 70% !important;
+  } 
+  
 }
