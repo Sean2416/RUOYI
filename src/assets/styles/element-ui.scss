@@ -113,7 +113,7 @@
 }
 
 .el-card {
-  margin: 15px 30px!important;
+  margin: 15px 30px 0px 30px !important;
   padding-top: 10px !important;
   padding-left: 10px !important;
   font-size: 20px !important;
@@ -166,6 +166,18 @@
   margin: 0 !important;
 }
 
+.detailCard{
+  border-radius: 0!important;
+  border: none !important;
+  box-shadow: none !important;
+  margin: 0px 15px !important;
+  padding-top: 0 !important;
+  padding-left: 0 !important;
+}
+
+.el-form-item__error{
+  display: none;
+}
 
 .queryBlock{
   width: 60% !important;
@@ -176,19 +188,19 @@
 }
 
 .queryBlock .el-form-item .el-form-item__content .el-select{
-  width: 70% !important;
+  width: 50% !important;
+} 
+
+.queryBlock .el-form-item .el-form-item__content .el-input{
+  width: 50% !important;
 } 
 
 .queryBlock .el-form-item .el-form-item__content .el-select .el-input{
   width: 100% !important;
 } 
 
-.queryBlock .el-form-item .el-form-item__content .el-input{
-  width: 70% !important;
-} 
-
-.el-form-item__error{
-  display: none;
+.queryBlock .btnBlock{
+  margin-left: 20% !important;
 }
 
 @media (max-width: 800px){

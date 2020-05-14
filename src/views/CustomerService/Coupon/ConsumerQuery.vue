@@ -7,8 +7,11 @@
       <el-form status-icon class="queryBlock" size="mini" :model="query" :rules="rules" ref="query">
         <el-form-item label="身分證號碼" prop="identity">
           <el-input placeholder="请输入内容" v-model="query.identity" class="input-with-select" clearable>
-            <el-button slot="append" icon="el-icon-search" @click="getUserInfo"></el-button>
           </el-input>
+        </el-form-item>
+        <el-form-item class="btnBlock">
+          <el-button type="primary" @click="getUserInfo">查詢</el-button>
+          <el-button @click="init">清除</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -23,7 +26,7 @@
       </div>
       <el-form class="showInfo" >
         <el-form-item label="領取方式">
-          <el-input v-model="couponTypeLabel" readonly></el-input>
+          <el-input v-model="coupon.couponTypeLabel" readonly></el-input>
         </el-form-item>
         <el-form-item label="兌換碼" v-if="coupon.couponType ==='P'">
           <el-input v-model="coupon.printCode" readonly></el-input>
@@ -49,16 +52,16 @@
       </el-form>
 
       <el-table :data="coupon.couponTypeInfo" border style="width: 100%" empty-text="暫無資料">
+        <el-table-column width="50" label="明細" >
+          <template slot-scope="scope">
+            <el-button @click="showDetail(scope.row)" type="text" size="medium" icon="el-icon-tickets"></el-button>
+          </template>
+        </el-table-column>
         <el-table-column prop="typeName" label="抵用券類別" width="180" sortable>
         </el-table-column>
         <el-table-column prop="consumed" label="已使用金額" sortable>
         </el-table-column>
         <el-table-column prop="balance" label="剩餘金額	" sortable>
-        </el-table-column>
-        <el-table-column width="80" label="明細">
-          <template slot-scope="scope">
-            <el-button @click="showDetail(scope.row)" type="text" size="medium" icon="el-icon-tickets"></el-button>
-          </template>
         </el-table-column>
       </el-table>
     </el-card>
@@ -72,8 +75,6 @@
 
 
 <script>
-  import $ from 'jquery';
-  var options = require('@/assets/js/options.js');
   import consumerInfo from '../BasicInfo/Consumer';
   import couponInfoTable from './CouponInfoTable';
 
@@ -88,22 +89,33 @@
         query: {
           identity: ''
         },
+        user: {},
+        coupon: {},
+        couponInfoList: [],
+        dialogCouponInfo: false,
         rules: {
           identity: [{
             required: true,
             message: '請輸入統編/證號',
             trigger: ['blur', 'change']
           }],
-        },
-        user: {},
-        coupon: {},
-        couponType: options.couponType,
-        couponTypeLabel: "",
-        dialogCouponInfo: false,
-        couponInfoList: []
+        }
       }
     },
+    mounted() {
+      this.init();
+    },
     methods: {
+      init() {
+        var vi = this;
+        vi.query = {
+          identity: ''
+        };
+        vi.user ={};
+        vi.coupon ={};
+        vi.couponInfoList =[];
+        vi.resetForm("query");
+      },
       showDetail(row) {
         this.dialogCouponInfo = true;
         this.couponInfoList = row.couponInfo;
@@ -194,10 +206,7 @@
     watch: {
       'coupon.couponType'() {
         var vi = this;
-        let type = $.grep(vi.couponType, function (r) {
-          return r.value == vi.coupon.couponType;
-        })
-        vi.couponTypeLabel = type[0].label;
+        vi.coupon.couponTypeLabel = vi.convertCouponType(vi.coupon.couponType);
       },
     }
   };

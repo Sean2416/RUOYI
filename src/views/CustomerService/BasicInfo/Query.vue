@@ -13,8 +13,11 @@
         </el-form-item>
         <el-form-item label="統編/證件號碼" prop="identity">
           <el-input placeholder="请输入内容" v-model="query.identity" class="input-with-select" clearable>
-            <el-button slot="append" icon="el-icon-search" @click="getInfo"></el-button>
           </el-input>
+        </el-form-item>
+        <el-form-item class="btnBlock">
+          <el-button type="primary" @click="getInfo">查詢</el-button>
+          <el-button  @click="init">清除</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -58,6 +61,14 @@
       }
     },
     methods: {
+      init() {
+        var vi = this;
+        vi.query = {
+          identity: ''
+        };
+        vi.info = {};
+        vi.resetForm("query");
+      },
       getInfo() {
         // API: /whitelist/getWhiteListInfo/{S}/{identity}
 
@@ -112,6 +123,9 @@
           longitude: "121.5252020"
         }
       }
+    },
+    mounted() {
+      this.init();
     },
     watch: {
       userType: {

@@ -5,7 +5,7 @@
   export default {
     data: function () {
       return {
-        storeType: options.storeType,
+        options : options
       };
     },
     methods: {
@@ -13,32 +13,44 @@
         if (this.$refs[formName] != undefined)
           this.$refs[formName].resetFields();
       },
-      getDate(addDays){
+      getDate(addDays) {
         var date = new Date();
         return moment(date.setDate(date.getDate() - addDays)).format("YYYY/MM/DD");
       },
-      getDateInterval(start, end)
-      {
+      getDateInterval(start, end) {
         return [this.getDate(start), this.getDate(end)]
       },
-      convertStoreType(typeString)
-      {
+      convertStoreType(typeString) {
         var vi = this;
         var arr = typeString.split(",");
         var typeString = "";
 
         arr.forEach(element => {
 
-          let type = $.grep(vi.storeType, function (r) {
+          let type = $.grep(vi.options.storeType, function (r) {
             return r.value == element;
           })
           if (type.length > 0)
-           typeString += type[0].label + ",";
+            typeString += type[0].label + ",";
 
         });
 
-        return typeString.substring(0, typeString.length-1);
+        return typeString.substring(0, typeString.length - 1);
+      },
+      convertCouponType(typeString) {
+        var vi = this;
+
+        let type = $.grep(vi.options.couponType, function (r) {
+          return r.value == typeString;
+        })
+
+        return type[0].label;
+      },
+      convertStatusFromString(status) {
+        if (status.toUpperCase() === "Y")
+          return "是";
+
+        return "否";
       }
     }
   }
-  

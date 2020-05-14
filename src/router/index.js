@@ -104,10 +104,22 @@ export const constantRoutes = [
         meta: { title: '抵用券狀態查詢', icon: '' }
       },
       {
-        path: 'transactionHistory',
-        component: () => import('@/views/CustomerService/Coupon/TransactionHistory'),
-        name: 'CouponTransactionHistory',
+        path: 'consumptionHistory',
+        component: () => import('@/views/CustomerService/Coupon/ConsumptionHistory'),
+        name: 'CouponConsumptionHistory',
         meta: { title: '消費紀錄查詢', icon: '' }
+      },
+      {
+        path: 'chargeHistory',
+        component: () => import('@/views/CustomerService/Coupon/ChargeHistory'),
+        name: 'CouponChargeHistoryHistory',
+        meta: { title: '收款紀錄查詢', icon: '' }
+      },
+      {
+        path: 'writeOffHistory',
+        component: () => import('@/views/CustomerService/Coupon/WriteOffHistory'),
+        name: 'CouponWriteOffHistory',
+        meta: { title: '抵用券核銷查詢', icon: '' }
       }
     ]
   },
