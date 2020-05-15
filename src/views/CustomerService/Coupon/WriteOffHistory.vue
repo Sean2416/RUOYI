@@ -30,10 +30,7 @@
 
     <el-card class="detailCard">
       <el-table :data="result.weeklyTransaction" border style="width: 100%" empty-text="暫無資料">
-        <el-table-column width="50" label="明細">
-          <template slot-scope="scope">
-            <el-button @click="showDetail(scope.row)" type="text" size="medium" icon="el-icon-tickets"></el-button>
-          </template>
+        <el-table-column type="index" width="40">
         </el-table-column>
         <el-table-column prop="storeName" label="店名" sortable>
         </el-table-column>
@@ -47,7 +44,19 @@
         </el-table-column>
         <el-table-column prop="statusDesc" label="銷帳狀態" sortable>
         </el-table-column>
+        <el-table-column width="70" label="明細">
+          <template slot-scope="scope">
+            <el-button @click="showDetail(scope.row)" type="text" size="medium" icon="el-icon-tickets"></el-button>
+          </template>
+        </el-table-column>
       </el-table>
+
+       <pagination         
+          :total="total"
+          :page.sync="queryParams.pageNum"
+          :limit.sync="queryParams.pageSize"
+        />
+
     </el-card>
 
      <el-dialog title="週結明細" :visible.sync="dialogDetail" width="80%">
@@ -72,6 +81,11 @@
         weekData:{},
         result: {},
         dialogDetail: false,
+        total: 2,
+        queryParams: {
+          pageNum: 1,
+          pageSize: 10
+        },
         rules: {
           identity: [{
             required: true,

@@ -52,16 +52,18 @@
       </el-form>
 
       <el-table :data="coupon.couponTypeInfo" border style="width: 100%" empty-text="暫無資料">
-        <el-table-column width="50" label="明細" >
-          <template slot-scope="scope">
-            <el-button @click="showDetail(scope.row)" type="text" size="medium" icon="el-icon-tickets"></el-button>
-          </template>
+        <el-table-column type="index" width="40">
         </el-table-column>
         <el-table-column prop="typeName" label="抵用券類別" width="180" sortable>
         </el-table-column>
         <el-table-column prop="consumed" label="已使用金額" sortable>
         </el-table-column>
         <el-table-column prop="balance" label="剩餘金額	" sortable>
+        </el-table-column>
+        <el-table-column width="50" label="明細" >
+          <template slot-scope="scope">
+            <el-button @click="showDetail(scope.row)" type="text" size="medium" icon="el-icon-tickets"></el-button>
+          </template>
         </el-table-column>
       </el-table>
     </el-card>

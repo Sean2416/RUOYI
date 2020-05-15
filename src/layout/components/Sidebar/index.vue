@@ -83,7 +83,7 @@
           })
         if (key == 7)
           this.$router.push({
-            path: '/StoreQuery'
+            path: '/ACH/datatAccess'
           })
       },
     },

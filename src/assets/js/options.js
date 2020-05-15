@@ -41,5 +41,19 @@ module.exports = {
   }, {
     value: '1',
     label: '已使用'
+  }],
+  dataActionType: [{
+    value: '0',
+    label: '上傳'
+  }, {
+    value: '1',
+    label: '下載'
+  }],
+  fileType: [{
+    value: '0',
+    label: '實名認證請求檔'
+  }, {
+    value: '1',
+    label: '付款請求檔'
   }]
 }

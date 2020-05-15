@@ -132,9 +132,7 @@
         deep: true,
         immediate: true,
         handler(val) {
-          this.info = {};
-          this.identity = null;
-          this.resetForm("query");
+          this.init();
         }
       }
     }

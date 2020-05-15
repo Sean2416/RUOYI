@@ -30,6 +30,8 @@
 
     <el-card class="detailCard">
       <el-table :data="couponInfoList" border style="width: 100%" empty-text="暫無資料">
+        <el-table-column type="index" width="40">
+        </el-table-column>
         <el-table-column prop="couponId" label="抵用券序號" width="180" sortable>
         </el-table-column>
         <el-table-column prop="storeName" label="消費店名" sortable>

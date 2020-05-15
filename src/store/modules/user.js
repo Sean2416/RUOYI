@@ -1,12 +1,12 @@
 import { login, logout, getInfo } from '@/api/login'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken ,getRole, setRole , removeRole } from '@/utils/auth'
 
 const user = {
   state: {
     token: getToken(),
     name: '',
     avatar: '',
-    roles: [],
+    roles: getRole(),
     permissions: []
   },
 
@@ -39,6 +39,7 @@ const user = {
         login(username, password, code, uuid).then(res => {
           console.log(res)
           setToken(res.result.accessToken)
+          setRole("CS")
           commit('SET_TOKEN', res.result.accessToken)
           //commit('SET_TOKEN', res.token)
           commit('SET_ROLES', "CS")
@@ -78,6 +79,7 @@ const user = {
           commit('SET_ROLES', [])
           commit('SET_PERMISSIONS', [])
           removeToken()
+          removeRole()
           resolve()
         }).catch(error => {
           reject(error)
@@ -89,7 +91,9 @@ const user = {
     FedLogOut({ commit }) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '')
+        commit('SET_ROLES', '')
         removeToken()
+        removeRole()
         resolve()
       })
     }

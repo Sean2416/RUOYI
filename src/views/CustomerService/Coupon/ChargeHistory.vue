@@ -30,6 +30,8 @@
 
     <el-card class="detailCard">
       <el-table :data="couponInfoList" border style="width: 100%" empty-text="暫無資料">
+        <el-table-column type="index" width="40">
+        </el-table-column>
         <el-table-column prop="storeName" label="店名" sortable>
         </el-table-column>
         <el-table-column prop="typeName" label="店家類別" sortable>
@@ -41,6 +43,13 @@
         <el-table-column prop="amount" label="抵用券金額" sortable>
         </el-table-column>
       </el-table>
+      
+       <pagination         
+          :total="total"
+          :page.sync="queryParams.pageNum"
+          :limit.sync="queryParams.pageSize"
+        />
+
     </el-card>
 
   </div>
@@ -60,6 +69,11 @@
             message: '請輸入統編/證號',
             trigger: ['blur', 'change']
           }],
+        },
+        total: 2,
+        queryParams: {
+          pageNum: 1,
+          pageSize: 10
         },
         couponInfoList: []
       }

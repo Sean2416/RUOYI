@@ -93,6 +93,19 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/ACH',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: 'datatAccess',
+        component: () => import('@/views/CustomerService/ACH/DatatAccess'),
+        name: 'ACHDataAccess',
+        meta: { title: 'ACH上傳、下載', icon: '' }
+      }
+    ]
+  },
+  {
     path: '/coupon',
     component: Layout,
     hidden: true,

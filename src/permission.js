@@ -6,7 +6,8 @@ import {
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import {
-  getToken
+  getToken,
+  getRole
 } from '@/utils/auth'
 
 NProgress.configure({
@@ -17,7 +18,7 @@ const whiteList = ['/login', '/auth-redirect', '/bind', '/register']
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
-  if (getToken()) {
+  if (getToken() && getRole()) {
     console.log(getToken())
     console.log(store.getters)
     /* has token*/
@@ -27,9 +28,9 @@ router.beforeEach((to, from, next) => {
       })
       NProgress.done()
     } else {
-      console.log(store.getters.roles)
-      //判斷是否擁有客服全縣
-      if (store.getters.roles.indexOf("CS") < 0) {
+      console.log(getRole())
+      //判斷是否擁有客服權限
+      if (getRole().indexOf("CS") < 0) {
         store.dispatch('FedLogOut').then(() => {
           Message.error("您沒有操作客服系統權限")
           next({
@@ -39,28 +40,6 @@ router.beforeEach((to, from, next) => {
       }
       else
         next()
-      // if (store.getters.roles.length === 0) {
-      //   // 判斷當前使用者是否已拉取完user_info資訊
-      //   store.dispatch('GetInfo').then(res => {
-      //     // 拉取user_info
-      //     const roles = res.roles
-      //     store.dispatch('GenerateRoutes', { roles }).then(accessRoutes => {
-      //     // 測試 預設靜態頁面
-      //     // store.dispatch('permission/generateRoutes', { roles }).then(accessRoutes => {
-      //       // 根據roles許可權生成可訪問的路由表
-      //       router.addRoutes(accessRoutes) // 動態新增可訪問路由表
-      //       next({ ...to, replace: true }) // hack方法 確保addRoutes已完成
-      //     })
-      //   })
-      //     .catch(err => {
-      //       store.dispatch('FedLogOut').then(() => {
-      //         Message.error(err)
-      //         next({ path: '/' })
-      //       })
-      //     })
-      // } else {
-      //   next()
-      // }
     }
   } else {
     // 沒有token
