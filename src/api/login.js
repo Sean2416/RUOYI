@@ -4,15 +4,10 @@ import request from '@/utils/request'
 export function login(username, password, code, uuid) {
   const data = {
     username,
-    password,
-    code,
-    uuid
+    password
   }
-  return request({
-    url: '/login',
-    method: 'post',
-    params: data
-  })
+  
+  return request.post(`http://localhost:5432/api/services/app/User/UserLogin`, data);  
 }
 
 // 獲取使用者詳細資訊

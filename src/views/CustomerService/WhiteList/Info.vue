@@ -50,7 +50,7 @@
     methods: {
       ShowOnMap()
       {
-        window.open("https://www.google.com/maps/search/?api=1&query=" + this.storeData.latitude + "," + this.storeData.longitude);
+        window.open(`https://www.google.com/maps/search/?api=1&query=${this.storeData.latitude},${this.storeData.longitude}`);
       }
     },
   };

@@ -39,7 +39,7 @@
     methods: {
       ShowOnMap()
       {
-        window.open("https://www.google.com/maps/search/?api=1&query=" + this.hotelData.latitude + "," + this.hotelData.longitude);
+        window.open(`https://www.google.com/maps/search/?api=1&query=${this.hotelData.latitude},${this.hotelData.longitude}`);
       }
     },
   };
