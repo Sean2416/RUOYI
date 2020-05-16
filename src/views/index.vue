@@ -1,20 +1,6 @@
 <template>
   <div class="dashboard-editor-container">
 
-    <el-row >
-      <el-menu class="el-menu-demo" mode="horizontal" @select="handleSelect"
-        background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
-        <el-menu-item index="1">白名單查詢</el-menu-item>
-        <el-menu-item index="2">抵用券狀態查詢</el-menu-item>
-        <el-menu-item index="3">消費者/店家基本資料查詢</el-menu-item>
-        <el-menu-item index="4">消費紀錄查詢</el-menu-item>
-        <el-menu-item index="5">收款紀錄查詢</el-menu-item>
-        <el-menu-item index="6">抵用券核銷查詢</el-menu-item>
-        <el-menu-item index="7">ACH上傳、下載</el-menu-item>
-      </el-menu>
-    </el-row>
-
-
     <panel-group @handleSetLineChartData="handleSetLineChartData" />
 
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
@@ -84,23 +70,6 @@
       }
     },
     methods: {
-      handleSelect(key, keyPath) {
-        console.log(key==1)
-        if(key==1)
-          this.$router.push({ path: '/whiteList/query' })
-        if(key==2)
-          this.$router.push({ path: '/coupon/consumerQuery' })
-        if(key==3)
-          this.$router.push({ path: '/basicInfo/query' })
-        if(key==4)
-          this.$router.push({ path: '/coupon/consumptionHistory' })
-        if(key==5)
-          this.$router.push({ path: '/coupon/chargeHistory' })
-        if(key==6)
-          this.$router.push({ path: '/coupon/writeOffHistory' })
-        if(key==7)
-          this.$router.push({ path: '/StoreQuery' })
-      },
       handleSetLineChartData(type) {
         this.lineChartData = lineChartData[type]
       }

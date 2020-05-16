@@ -7,11 +7,12 @@ export function login(username, password, code, uuid) {
     password
   }
   
-  return request.post(`http://localhost:5432/api/services/app/User/UserLogin`, data);  
+  return request.post(`/services/app/User/UserLogin`, data);  
 }
 
 // 獲取使用者詳細資訊
 export function getInfo() {
+ // return request.get('/getInfo', {params: {parameters}});
   return request({
     url: '/getInfo',
     method: 'get'

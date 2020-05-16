@@ -26,8 +26,8 @@
       <el-form-item style="width:100%;">
         <el-button :loading="loading" size="medium" type="primary" style="width:100%;"
           @click.native.prevent="handleLogin">
-          <span v-if="!loading">登 錄</span>
-          <span v-else>登 錄 中...</span>
+          <span v-if="!loading">登 入</span>
+          <span v-else>登 入 中...</span>
         </el-button>
       </el-form-item>
     </el-form>
@@ -136,6 +136,7 @@
                 this.$router.push({
                   path: this.redirect || "/"
                 });
+                this.loading = false;
               })
               .catch(() => {
                 this.loading = false;

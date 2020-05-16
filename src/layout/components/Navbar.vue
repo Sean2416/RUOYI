@@ -7,18 +7,8 @@
     <div class="right-menu">
       <template v-if="device!=='mobile'">
         <search id="header-search" class="right-menu-item" />
-        
-        <el-tooltip content="原始碼地址" effect="dark" placement="bottom">
-          <ruo-yi-git id="ruoyi-git" class="right-menu-item hover-effect" />
-        </el-tooltip>
-
-        <el-tooltip content="文件地址" effect="dark" placement="bottom">
-          <ruo-yi-doc id="ruoyi-doc" class="right-menu-item hover-effect" />
-        </el-tooltip>
-
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
-
-        <el-tooltip content="佈局大小" effect="dark" placement="bottom">
+        <el-tooltip content="版面大小" effect="dark" placement="bottom">
           <size-select id="size-select" class="right-menu-item hover-effect" />
         </el-tooltip>
 
@@ -34,10 +24,10 @@
             <el-dropdown-item>個人中心</el-dropdown-item>
           </router-link>
           <el-dropdown-item>
-            <span @click="setting = true">佈局設定</span>
+            <span @click="setting = true"版面設定</span>
           </el-dropdown-item>
           <el-dropdown-item divided @click.native="logout">
-            <span>退出登入</span>
+            <span>登出</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -93,7 +83,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$store.dispatch('LogOut').then(() => {
+        this.$store.dispatch('FedLogOut').then(() => {
           location.reload()
         })
       })

@@ -3,11 +3,9 @@ import { Notification, MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
-axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
-// 建立axios例項
 const service = axios.create({
   // axios中請求配置有baseURL選項，表示請求URL公共部分
-  baseURL: process.env.VUE_APP_BASE_API,
+  baseURL: process.env.VUE_APP_CLIENT_API,
   // 超時
   timeout: 10000
 })
@@ -27,7 +25,7 @@ service.interceptors.request.use(
 
 // 響應攔截器
 service.interceptors.response.use(res => {
-    const code = res.data.code
+    const code = res.status
     if (code === 401) {
       MessageBox.confirm(
         '登入狀態已過期，您可以繼續留在該頁面，或者重新登入',

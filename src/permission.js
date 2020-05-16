@@ -1,62 +1,76 @@
 import router from './router'
 import store from './store'
-import { Message } from 'element-ui'
+import {
+  Message
+} from 'element-ui'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { getToken } from '@/utils/auth'
+import {
+  getToken
+} from '@/utils/auth'
 
-NProgress.configure({ showSpinner: false })
+NProgress.configure({
+  showSpinner: false
+})
 
 const whiteList = ['/login', '/auth-redirect', '/bind', '/register']
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
   if (getToken()) {
+    console.log(getToken())
+    console.log(store.getters)
     /* has token*/
     if (to.path === '/login') {
-      next({ path: '/' })
+      next({
+        path: '/'
+      })
       NProgress.done()
     } else {
-      if (store.getters.roles.length === 0) {
-        // 判斷當前使用者是否已拉取完user_info資訊
-        store.dispatch('GetInfo').then(res => {
-          // 拉取user_info
-          const roles = res.roles
-          store.dispatch('GenerateRoutes', { roles }).then(accessRoutes => {
-          // 測試 預設靜態頁面
-          // store.dispatch('permission/generateRoutes', { roles }).then(accessRoutes => {
-            // 根據roles許可權生成可訪問的路由表
-            router.addRoutes(accessRoutes) // 動態新增可訪問路由表
-            next({ ...to, replace: true }) // hack方法 確保addRoutes已完成
+      console.log(store.getters.roles)
+      //判斷是否擁有客服全縣
+      if (store.getters.roles.indexOf("CS") < 0) {
+        store.dispatch('FedLogOut').then(() => {
+          Message.error("您沒有操作客服系統權限")
+          next({
+            path: '/'
           })
-        })
-          .catch(err => {
-            store.dispatch('FedLogOut').then(() => {
-              Message.error(err)
-              next({ path: '/' })
-            })
-          })
-      } else {
-        next()
-        // 沒有動態改變許可權的需求可直接next() 刪除下方許可權判斷 ↓
-        // if (hasPermission(store.getters.roles, to.meta.roles)) {
-        //   next()
-        // } else {
-        //   next({ path: '/401', replace: true, query: { noGoBack: true }})
-        // }
-        // 可刪 ↑
+        });
       }
+      else
+        next()
+      // if (store.getters.roles.length === 0) {
+      //   // 判斷當前使用者是否已拉取完user_info資訊
+      //   store.dispatch('GetInfo').then(res => {
+      //     // 拉取user_info
+      //     const roles = res.roles
+      //     store.dispatch('GenerateRoutes', { roles }).then(accessRoutes => {
+      //     // 測試 預設靜態頁面
+      //     // store.dispatch('permission/generateRoutes', { roles }).then(accessRoutes => {
+      //       // 根據roles許可權生成可訪問的路由表
+      //       router.addRoutes(accessRoutes) // 動態新增可訪問路由表
+      //       next({ ...to, replace: true }) // hack方法 確保addRoutes已完成
+      //     })
+      //   })
+      //     .catch(err => {
+      //       store.dispatch('FedLogOut').then(() => {
+      //         Message.error(err)
+      //         next({ path: '/' })
+      //       })
+      //     })
+      // } else {
+      //   next()
+      // }
     }
   } else {
-    next();
-    // // 沒有token
-    // if (whiteList.indexOf(to.path) !== -1) {
-    //   // 在免登入白名單，直接進入
-    //   next()
-    // } else {
-    //   next(`/login?redirect=${to.path}`) // 否則全部重定向到登入頁
-    //   NProgress.done()
-    // }
+    // 沒有token
+    if (whiteList.indexOf(to.path) !== -1) {
+      // 在免登入白名單，直接進入
+      next()
+    } else {
+      next(`/login?redirect=${to.path}`) // 否則全部重定向到登入頁
+      NProgress.done()
+    }
   }
 })
 
