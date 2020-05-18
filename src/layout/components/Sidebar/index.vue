@@ -56,7 +56,6 @@
     },
     methods: {
       handleSelect(key, keyPath) {
-        console.log(key == 1)
         if (key == 1)
           this.$router.push({
             path: '/whiteList/query'

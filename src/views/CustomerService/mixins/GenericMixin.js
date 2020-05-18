@@ -1,17 +1,57 @@
   import $ from 'jquery';
   import moment from "moment";
   var options = require('@/assets/js/options.js');
+  import { Notification } from 'element-ui'
 
   export default {
     data: function () {
       return {
-        options : options
+        options: options
       };
     },
     methods: {
+      vaildForm(formName) {
+        var vi = this;
+        if (vi.$refs[formName] != undefined) {
+          vi.$refs["query"].validate((valid) => {
+            if (valid) {
+              return true;
+            } else {
+              return false;
+            }
+          });
+        }
+        return true;
+      },
       resetForm(formName) {
         if (this.$refs[formName] != undefined)
           this.$refs[formName].resetFields();
+      },      
+      showOnMap(row) {
+        window.open(`https://www.google.com/maps/search/?api=1&query=${row.latitude},${row.longitude}`);
+      },
+      createWarm(message)
+      { 
+        Notification.warning({
+        title: '系統提示',
+        message: message
+       });
+      },
+      checkResponseValue(result, colName)
+      {
+        if (result === undefined || result[colName] === undefined) 
+          return false;
+
+        return true;
+      },
+      convertDataToArray(data)
+      {
+        if (Array.isArray(data)) 
+          return data;
+          
+        var arr = [];
+        arr.push(data)
+        return arr;
       },
       getDate(addDays) {
         var date = new Date();

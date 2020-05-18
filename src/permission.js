@@ -19,8 +19,6 @@ const whiteList = ['/login', '/auth-redirect', '/bind', '/register']
 router.beforeEach((to, from, next) => {
   NProgress.start()
   if (getToken() && getRole()) {
-    console.log(getToken())
-    console.log(store.getters)
     /* has token*/
     if (to.path === '/login') {
       next({
@@ -28,7 +26,6 @@ router.beforeEach((to, from, next) => {
       })
       NProgress.done()
     } else {
-      console.log(getRole())
       //判斷是否擁有客服權限
       if (getRole().indexOf("CS") < 0) {
         store.dispatch('FedLogOut').then(() => {

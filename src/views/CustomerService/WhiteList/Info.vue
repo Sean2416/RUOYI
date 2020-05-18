@@ -3,7 +3,7 @@
     <el-card>
       <div slot="header" class="clearfix">
         <span>白名單資料</span>
-        <el-button style="float: right; margin-right:10px" type="primary" plain @click="ShowOnMap()"
+        <el-button style="float: right; margin-right:10px" type="primary" plain @click="showOnMap()"
           icon="el-icon-map-location"></el-button>
       </div>
       <el-form class="showInfo">
@@ -11,7 +11,7 @@
           <el-input v-model="storeData.name" readonly></el-input>
         </el-form-item>
         <el-form-item label="統編">
-          <el-input v-model="storeData.tax_no" readonly></el-input>
+          <el-input v-model="storeData.taxNo" readonly></el-input>
         </el-form-item>
         <el-form-item label="負責人">
           <el-input v-model="storeData.owner" readonly></el-input>
@@ -48,10 +48,6 @@
       return {}
     },
     methods: {
-      ShowOnMap()
-      {
-        window.open(`https://www.google.com/maps/search/?api=1&query=${this.storeData.latitude},${this.storeData.longitude}`);
-      }
     },
   };
 

@@ -5,26 +5,13 @@
     <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
 
     <div class="right-menu">
-      <template v-if="device!=='mobile'">
-        <search id="header-search" class="right-menu-item" />
-        <screenfull id="screenfull" class="right-menu-item hover-effect" />
-        <el-tooltip content="版面大小" effect="dark" placement="bottom">
-          <size-select id="size-select" class="right-menu-item hover-effect" />
-        </el-tooltip>
-
-      </template>
-
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar" class="user-avatar">
-          <i class="el-icon-caret-bottom" />
+          <i class="el-icon-s-tools" />
         </div>
         <el-dropdown-menu slot="dropdown">
-          <router-link to="/user/profile">
-            <el-dropdown-item>個人中心</el-dropdown-item>
-          </router-link>
           <el-dropdown-item>
-            <span @click="setting = true"版面設定</span>
+            <span @click="setting = true">版面設定</span>
           </el-dropdown-item>
           <el-dropdown-item divided @click.native="logout">
             <span>登出</span>

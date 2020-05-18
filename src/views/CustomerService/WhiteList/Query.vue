@@ -1,41 +1,84 @@
 <template>
   <div>
+    <loadingPage :loadingText="loadingText"></loadingPage>
     <el-card>
       <div slot="header" class="clearfix">
         <span>白名單查詢</span>
       </div>
-      <el-form  size="mini" status-icon class="queryBlock" :model="query" :rules="rules" ref="query">
+      <el-form size="mini" status-icon class="queryBlock" :model="query" :rules="rules" ref="query">
+        <el-form-item label="資料型態">
+          <el-select v-model="query.whitelistType" placeholder="请选择">
+            <el-option v-for="item in whitelistType" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="統編/證號" prop="identity">
           <el-input placeholder="请输入内容" v-model="query.identity" class="input-with-select" clearable>
           </el-input>
         </el-form-item>
         <el-form-item class="btnBlock">
           <el-button type="primary" @click="getStoreInfo">查詢</el-button>
-          <el-button  @click="init">清除</el-button>
+          <el-button @click="init">清除</el-button>
         </el-form-item>
       </el-form>
     </el-card>
 
-    <whitelistInfo :storeData=store> </whitelistInfo>
+    <el-card>
+      <div slot="header" class="clearfix">
+        <span>白名單清單</span>
+      </div>
 
+      <el-table :data="whiteListInfoList" border style="width: 100%" empty-text="暫無資料">
+        <el-table-column  label="地圖" width="50" align="center">
+          <template slot-scope="scope">
+            <el-button @click="showOnMap(scope.row)" type="text" size="medium" icon="el-icon-map-location"></el-button>
+          </template>
+        </el-table-column>
+        <el-table-column type="expand" label="明細">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="table-expand">
+              <el-form-item label="負責人" class="table-expand-item">
+                <span>{{ props.row.owner }}</span>
+              </el-form-item>
+              <el-form-item label="電子信箱" class="table-expand-item">
+                <span>{{ props.row.email}}</span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
+        <el-table-column prop="name" label="名稱" sortable>
+        </el-table-column>
+        <el-table-column prop="taxNo" label="統編/證號" sortable>
+        </el-table-column>
+        <el-table-column prop="phonenumber" label="電話	" sortable>
+        </el-table-column>
+        <el-table-column prop="address" label="地址	" sortable>
+        </el-table-column>
+      </el-table>
+    </el-card>
   </div>
 </template>
 
 
 <script>
-  import whitelistInfo from './Info';
+  var options = require('@/assets/js/options.js');
+  import loadingPage from '@/views/tool/loading/LoadingPage';
+  import {
+    getWhiteListInfo
+  } from "@/api/CustomerService/whiteList";
   export default {
     name: "WhiteListQuery",
     components: {
-      whitelistInfo
+      loadingPage
     },
     data() {
       return {
+        loadingText: null,
         store: {},
-        dialogVisible: false,
-        query: {
-          identity: ''
-        },
+        dialogDetail: false,
+        query: {},
+        whiteListInfoList: [],
+        whitelistType: options.whitelistType,
         rules: {
           identity: [{
             required: true,
@@ -52,32 +95,28 @@
       init() {
         var vi = this;
         vi.query = {
-          identity: ''
+          identity: '',
+          whitelistType: 'S'
         };
-        vi.store ={};
+        vi.dialogDetail = false;
+        vi.store = {};
+        vi.whiteListInfoList = [];
         vi.resetForm("query");
       },
       getStoreInfo() {
-        // API: /whitelist/getWhiteListInfo/{S}/{identity}
         var vi = this;
-        vi.$refs["query"].validate((valid) => {
-          if (valid) {
-            vi.store = {
-              id: "148",
-              owner: "吳宜之",
-              name: "兔仔書坊",
-              tax_no: "47898499",
-              address: "屏東縣恆春鎮復興路103-2號1F",
-              latitude: "25.052427",
-              longitude: "121.548535",
-              phonenumber: "02-27528168",
-              email: "service@urtrip.com.tw",
-              store_name_mk: "小兔仔書窩"
-            }
-          } else {
-            return false;
-          }
-        });
+        if (vi.vaildForm("query")) {
+          vi.loadingText = '搜尋中';
+          getWhiteListInfo(vi.query.whitelistType, vi.query.identity).then(res => {
+            vi.loadingText = null;
+            if (vi.checkResponseValue(res.result, "whiteListInfo")) {
+              vi.whiteListInfoList = vi.convertDataToArray(res.result.whiteListInfo);
+            } else
+              vi.createWarm("查無資料");
+          }).catch(error => {
+            vi.loadingText = null;
+          });
+        }
       }
     },
   };

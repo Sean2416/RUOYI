@@ -113,20 +113,19 @@
 }
 
 .el-card {
-  margin: 15px 30px 0px 30px !important;
-  padding-top: 10px !important;
-  padding-left: 10px !important;
+  margin: 15px 30px 10px 30px !important;
   font-size: 20px !important;
-  padding-bottom: 15px !important;
+  color: #fdfeff !important;
 }
 
 .el-card__header {
-  border-bottom: 0 !important;
-  min-height: 50px !important;
+  padding: 17px 25px 17px !important;
+  min-height: 40px !important;
+  background-color: #205f9a !important;
 }
 
 .el-card__body {
-  padding: 10px 20px 0px 20px !important;
+  padding: 0px 20px 10px 20px !important;
 }
 
 .el-input--medium {
@@ -136,6 +135,12 @@
 .el-table .warning-row {
   background: #dbe4f7;
  }
+
+ .showInfo {
+  width: 90% !important;
+  margin-left: 3% !important;
+  margin-top: 25px !important;
+}
 
  .showInfo .el-form-item{
   border-bottom: 1px solid #dcdfe6 !important;
@@ -149,6 +154,10 @@
   text-align: left !important;
   width: 100px !important;
 }
+
+.showInfo .el-form-item .el-form-item__content .el-input{
+  width: 70% !important;
+} 
 
 .showInfo .el-input--medium{
   width: 80% !important;
@@ -182,6 +191,7 @@
 
 .queryBlock{
   width: 60% !important;
+  margin-top: 25px !important;
 }
 
 .queryBlock .el-form-item__label{
@@ -241,6 +251,10 @@
   border-radius: 0px !important;
   line-height: 30px !important;
   font-size: 12px !important;
+}
+
+.el-table--border th, .el-table--border td {
+   border-right-color: rgba(232, 231, 231, 0.5)  !important;
 }
 
 @media (max-width: 800px){

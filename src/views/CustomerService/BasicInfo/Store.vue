@@ -3,7 +3,7 @@
     <el-card>
       <div slot="header" class="clearfix">
         <span>店家資料</span>
-        <el-button style="float: right; margin-right:10px" type="primary" plain @click="ShowOnMap()"
+        <el-button style="float: right; margin-right:10px" type="primary" plain @click="showOnMap()"
           icon="el-icon-map-location"></el-button>
       </div>
       <el-form class="showInfo">
@@ -45,9 +45,6 @@
       }
     },
     methods: {
-      ShowOnMap() {
-        window.open(`https://www.google.com/maps/search/?api=1&query=${this.storeData.latitude},${this.storeData.longitude}`);
-      }
     },
     watch: {
       storeData: {

@@ -38,11 +38,11 @@ const user = {
       return new Promise((resolve, reject) => {
         login(username, password, code, uuid).then(res => {
           console.log(res)
-          setToken(res.result.accessToken)
-          setRole("CS")
-          commit('SET_TOKEN', res.result.accessToken)
-          //commit('SET_TOKEN', res.token)
-          commit('SET_ROLES', "CS")
+          
+          setToken(res.token)
+          setRole(res.role)
+          commit('SET_TOKEN', res.token)
+          commit('SET_ROLES', res.role)
           resolve()
         }).catch(error => {
           reject(error)

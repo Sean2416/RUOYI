@@ -2,12 +2,19 @@ import request from '@/utils/request'
 
 // 登入方法
 export function login(username, password, code, uuid) {
-  const data = {
+  var data = {
     username,
-    password
+    password,
+    code,
+    uuid
   }
-  
-  return request.post(`/services/app/User/UserLogin`, data);  
+console.log(data)
+
+  return request({
+    url: '/common/login',
+    method: 'post',
+    data:data
+  });  
 }
 
 // 獲取使用者詳細資訊

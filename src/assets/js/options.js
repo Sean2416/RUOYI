@@ -25,6 +25,13 @@ module.exports = {
     value: '3',
     label: '藝文'
   }],
+  whitelistType: [{
+    value: 'S',
+    label: '店家'
+  }, {
+    value: 'H',
+    label: '旅宿業者'
+  }],
   userType: [{
     value: 'S',
     label: '店家'

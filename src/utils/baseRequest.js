@@ -5,26 +5,21 @@ import { getToken } from '@/utils/auth'
 
 const service = axios.create({
   // axios中請求配置有baseURL選項，表示請求URL公共部分
-  baseURL: 'https://cors-anywhere.herokuapp.com/' +  process.env.VUE_APP_CLIENT_API,
+  baseURL: 'https://cors-anywhere.herokuapp.com/'+ process.env.VUE_APP_CLIENT_API,
   // 超時
   timeout: 10000,
   withCredentials: false,
   headers: {
-    'Content-Type': 'application/json;charset=utf-8'
+    'Content-Type': 'application/json;charset=utf-8',
   }
 })
-
-const isWithAuth = (config={}) => {
-  return config.hasOwnProperty('withAuth') && !config.withAuth ? 
-    false  : true 
-}
-
 // request攔截器
 service.interceptors.request.use(
   config => {
-    if (isWithAuth(config) && getToken()) {
+    if (getToken()) {
       config.headers['Authorization'] = 'Bearer ' + getToken() // 讓每個請求攜帶自定義token 請根據實際情況自行修改
     }
+    console.log(config)
     return config
   },
   error => {
@@ -36,8 +31,8 @@ service.interceptors.request.use(
 // 響應攔截器
 service.interceptors.response.use(res => {
   console.log(res)
-    const code = res.data.code
-    if (code === "0004") {
+    const code = res.status
+    if (code === 401) {
       Notification.error({
         title: '系統提示',
         message: '登入狀態過期，請重新登入'
@@ -47,7 +42,7 @@ service.interceptors.response.use(res => {
         location.reload() // 為了重新例項化vue-router物件 避免bug
       });
 
-    } else if (code !== "0000") {
+    } else if (code !== 200) {
       Notification.error({
         title: res.data.msg
       })
