@@ -35,3 +35,21 @@ export function resetPrint(identity) {
     data:data
   });  
 }
+
+export function getTransactionHistory(identity, username, role, storeType, startDate, endDate, rows, page) {
+  const data = {
+    identity,
+    username,
+    role,
+    storeType,
+    startDate,
+    endDate,
+    rows,
+    page
+  }
+  return request({
+    url: '/coupon/transactionHistory',
+    method: 'post',
+    data:data
+  });  
+}

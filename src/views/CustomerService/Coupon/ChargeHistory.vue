@@ -1,12 +1,13 @@
 <template>
   <div>
+    <loadingPage :loadingText="loadingText"></loadingPage>
     <el-card>
       <div slot="header" class="clearfix">
         <span>收款紀錄查詢</span>
       </div>
-      <el-form status-icon class="queryBlock" size="mini" :model="query" :rules="rules" ref="query">
+      <el-form status-icon class="queryBlock" size="mini" :model="query" ref="query">
         <el-form-item label="查詢區間">
-          <el-radio-group v-model="query.interval">
+          <el-radio-group v-model="query.interval" :disabled="queryDisable">
             <el-radio :label="7">近一周</el-radio>
             <el-radio :label="14">近三周</el-radio>
             <el-radio :label="0">自訂</el-radio>
@@ -14,110 +15,116 @@
         </el-form-item>
         <el-form-item label="自訂區間">
           <el-date-picker v-model="query.date" value-format="yyyy/MM/dd" type="daterange" range-separator="至"
-            start-placeholder="開始日期" :disabled="query.interval !== 0 " end-placeholder="结束日期">
+            start-placeholder="開始日期" :disabled="query.interval !== 0 || queryDisable" end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="店家證件號碼" prop="identity">
-          <el-input placeholder="请输入内容" v-model="query.identity" class="input-with-select" clearable>
+        <el-form-item label="帳號">
+          <el-input :disabled="queryDisable" v-model="query.username" class="input-with-select" clearable>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="店家證件號碼">
+          <el-input :disabled="queryDisable" v-model="query.identity" class="input-with-select" clearable>
           </el-input>
         </el-form-item>
         <el-form-item class="btnBlock">
-          <el-button type="primary" @click="getTransInfo">查詢</el-button>
-          <el-button  @click="init">清除</el-button>
+          <el-button type="primary" @click="getTransInfo" :disabled="queryDisable">查詢</el-button>
+          <el-button @click="init"  type="danger">清除</el-button>
         </el-form-item>
       </el-form>
     </el-card>
 
-    <el-card class="detailCard">
+    <el-card>
+      <div slot="header" class="clearfix">
+        <span>收款紀錄</span>
+      </div>
       <el-table :data="couponInfoList" border style="width: 100%" empty-text="暫無資料">
-        <el-table-column type="index" width="40">
-        </el-table-column>
-        <el-table-column prop="storeName" label="店名" sortable>
-        </el-table-column>
-        <el-table-column prop="typeName" label="店家類別" sortable>
+        <el-table-column prop="couponId" label="抵用券序號" width="180" sortable>
         </el-table-column>
         <el-table-column prop="consumeTime" label="消費時間" sortable>
         </el-table-column>
-        <el-table-column prop="couponId" label="抵用券序號" width="180" sortable>
-        </el-table-column>
         <el-table-column prop="amount" label="抵用券金額" sortable>
         </el-table-column>
+        <el-table-column prop="typeName" label="店家類別" sortable>
+        </el-table-column>
       </el-table>
-      
-       <pagination         
-          :total="total"
-          :page.sync="queryParams.pageNum"
-          :limit.sync="queryParams.pageSize"
-        />
+
+      <pagination
+      v-show="total > 0"
+      :total="total"
+      :page.sync="query.pageNum"
+      :limit.sync="query.pageSize"
+      @pagination="getTransInfo"
+    />
 
     </el-card>
-
   </div>
 </template>
 
 
 <script>
+  import loadingPage from '@/views/tool/loading/LoadingPage';
+  import {
+    getTransactionHistory
+  } from "@/api/CustomerService/coupon";
+
   export default {
-    name: "CouponChargeHistory",
-    components: {},
+    name: "CouponConsumptionHistory",
+    components: {
+      loadingPage
+    },
     data() {
       return {
         query: {},
-        rules: {
-          identity: [{
-            required: true,
-            message: '請輸入統編/證號',
-            trigger: ['blur', 'change']
-          }],
-        },
-        total: 2,
-        queryParams: {
-          pageNum: 1,
-          pageSize: 10
-        },
-        couponInfoList: []
+        couponInfoList: [],
+        total: 0,
+        loadingText: null,
+        queryDisable: false
       }
+    },
+    mounted() {
+      this.init();
     },
     methods: {
       init() {
         var vi = this;
         vi.query = {
-          identity: '',
+          username: "",
+          identity: "",
           interval: 7,
-          date: vi.getDateInterval(-7, 0)
+          date: vi.getDateInterval(7, 0),
+          pageNum: 1,
+          pageSize: 1
         };
         vi.couponInfoList = [];
-        vi.resetForm("query");
+        vi.total = 0;
+        vi.queryDisable = false;
+      },
+      queryParamValid() {
+        var vi = this;
+        if (vi.query.username === "" && vi.query.identity === "") {
+          vi.createWarm("請至少輸入一個查詢條件");
+          return false;
+        }
+        return true;
       },
       getTransInfo() {
         var vi = this;
-        // API /coupon/transactionHistory
-
-        vi.$refs["query"].validate((valid) => {
-          if (valid) {
-
-            this.couponInfoList = [{
-                couponId: "s3042908c1727978c77ce",
-                consumeTime: "2020/06/03 10:23:45",
-                amount: "50",
-                storeName: "美味佳小吃店",
-                storeType: "0,1"
-              },
-              {
-                couponId: "130552010951096604T3",
-                consumeTime: "2020/06/03 10:23:45",
-                amount: "50",
-                storeName: "AAAA",
-                storeType: "1,2"
-              }
-            ];
-          } else {
-            return false;
-          }
-
-        });
-
-        this.setColumnLabel();
+        if (vi.queryParamValid()) {
+          vi.loadingText = '搜尋中';
+          getTransactionHistory(vi.query.identity, vi.query.username, "S", "-1" ,vi.query.date[0], vi.query.date[1], vi.query.pageSize.toString(), vi.query.pageNum.toString())
+            .then(res => {
+              vi.loadingText = null;
+              if (vi.checkResponseValue(res.result, "couponInfo")) {
+                vi.total = res.result.totalRecords;
+                vi.couponInfoList = vi.convertDataToArray(res.result.couponInfo);
+                vi.setColumnLabel();
+                vi.queryDisable = true;
+              } else
+                vi.createWarm("查無資料");
+            }).catch(error => {
+              vi.loadingText = null;
+            });
+        }
       },
       setColumnLabel() {
         var vi = this;
@@ -125,9 +132,6 @@
           element.typeName = vi.convertStoreType(element.storeType);
         });
       },
-    },
-    mounted() {
-      this.init();
     },
     watch: {
       'query.interval'() {

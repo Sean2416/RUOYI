@@ -23,7 +23,7 @@
         </el-form-item>
         <el-form-item class="btnBlock">
           <el-button type="primary" @click="getTransInfo">查詢</el-button>
-          <el-button  @click="init">清除</el-button>
+          <el-button  @click="init" type="danger">清除</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -104,7 +104,7 @@
         vi.query = {
           identity: '',
           interval: 7,
-          date: vi.getDateInterval(-7, 0)
+          date: vi.getDateInterval(7, 0)
         };
         vi.result = {};
         vi.weekData = {};

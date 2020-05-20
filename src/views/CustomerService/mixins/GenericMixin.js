@@ -10,19 +10,6 @@
       };
     },
     methods: {
-      vaildForm(formName) {
-        var vi = this;
-        if (vi.$refs[formName] != undefined) {
-          vi.$refs["query"].validate((valid) => {
-            if (valid) {
-              return true;
-            } else {
-              return false;
-            }
-          });
-        }
-        return true;
-      },
       resetForm(formName) {
         if (this.$refs[formName] != undefined)
           this.$refs[formName].resetFields();

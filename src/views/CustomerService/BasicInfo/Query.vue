@@ -22,7 +22,7 @@
         </el-form-item>
         <el-form-item class="btnBlock">
           <el-button type="primary" @click="getInfo">查詢</el-button>
-          <el-button @click="init">清除</el-button>
+          <el-button @click="init" type="danger">清除</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -43,7 +43,7 @@
   import store from './StoreTable';
   import {
     getUserProfile
-  } from "@/api/CustomerService/basic";
+  } from "@/api/CustomerService/coupon";
 
   export default {
     name: "BasicInfoQuery",

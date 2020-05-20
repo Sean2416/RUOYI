@@ -7,16 +7,16 @@
       </div>
       <el-form status-icon class="queryBlock" size="mini" :model="query" ref="query">
         <el-form-item label="帳號">
-          <el-input placeholder="请输入内容" v-model="query.username" class="input-with-select" clearable>
+          <el-input :disabled="queryDisable" v-model="query.username" class="input-with-select" clearable>
           </el-input>
         </el-form-item>
         <el-form-item label="身分證號碼">
-          <el-input placeholder="请输入内容" v-model="query.identity" class="input-with-select" clearable>
+          <el-input :disabled="queryDisable" v-model="query.identity" class="input-with-select" clearable>
           </el-input>
         </el-form-item>
         <el-form-item class="btnBlock">
-          <el-button type="primary" @click="getUserInfo">查詢</el-button>
-          <el-button @click="init">清除</el-button>
+          <el-button type="primary" @click="getUserInfo" :disabled="queryDisable">查詢</el-button>
+          <el-button @click="init" type="danger">清除</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -124,7 +124,7 @@
     getUserProfile,
     getCouponOverview,
     resetPrint
-  } from "@/api/CustomerService/basic";
+  } from "@/api/CustomerService/coupon";
 
   export default {
     name: "CouponConsumerQuery",
@@ -135,6 +135,7 @@
     },
     data() {
       return {
+        queryDisable: false,
         loadingText: null,
         query: {
           username: null,
@@ -162,6 +163,7 @@
         vi.selectedRow = {};
         vi.couponInfoList = [];
         vi.resetForm("query");
+        vi.queryDisable = false;
       },
       selectUser(row) {
         var vi = this;
@@ -171,9 +173,6 @@
       showDetail(row) {
         this.dialogCouponInfo = true;
         this.couponInfoList = row.couponInfo;
-      },
-      resetPrintStatus() {
-        //API:  /coupon/resetPrint
       },
       queryParamValid() {
         var vi = this;
@@ -192,6 +191,7 @@
             vi.loadingText = null;
             if (vi.checkResponseValue(res.result, "consumer")) {
               vi.userList = vi.convertDataToArray(res.result.consumer);
+              vi.queryDisable = true;
             } else
               vi.createWarm("查無資料");
           }).catch(error => {
@@ -203,7 +203,7 @@
         var vi = this;
         vi.selectedRow = row;
         vi.loadingText = '搜尋中';
-        
+
         getCouponOverview(row.identity, row.username).then(res => {
           vi.loadingText = null;
           if (vi.checkResponseValue(res.result, "couponOverview")) {
@@ -269,6 +269,12 @@
         //     }
         //   ]
         // };
+      },
+      resetPrintStatus() {
+        var vi = this;
+        
+        console.log( vi.selectedRow)
+        //API:  /coupon/resetPrint
       },
     },
     watch: {

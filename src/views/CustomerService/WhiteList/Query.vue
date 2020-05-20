@@ -7,18 +7,18 @@
       </div>
       <el-form size="mini" status-icon class="queryBlock" :model="query" :rules="rules" ref="query">
         <el-form-item label="資料型態">
-          <el-select v-model="query.whitelistType" placeholder="请选择">
+          <el-select :disabled="queryDisable" v-model="query.whitelistType" placeholder="请选择">
             <el-option v-for="item in whitelistType" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="統編/證號" prop="identity">
-          <el-input placeholder="请输入内容" v-model="query.identity" class="input-with-select" clearable>
+          <el-input :disabled="queryDisable" v-model="query.identity" class="input-with-select" clearable>
           </el-input>
         </el-form-item>
         <el-form-item class="btnBlock">
-          <el-button type="primary" @click="getStoreInfo">查詢</el-button>
-          <el-button @click="init">清除</el-button>
+          <el-button type="primary" @click="getStoreInfo" :disabled="queryDisable">查詢</el-button>
+          <el-button @click="init" type="danger">清除</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -29,7 +29,7 @@
       </div>
 
       <el-table :data="whiteListInfoList" border style="width: 100%" empty-text="暫無資料">
-        <el-table-column  label="地圖" width="50" align="center">
+        <el-table-column label="地圖" width="50" align="center">
           <template slot-scope="scope">
             <el-button @click="showOnMap(scope.row)" type="text" size="medium" icon="el-icon-map-location"></el-button>
           </template>
@@ -74,6 +74,7 @@
     data() {
       return {
         loadingText: null,
+        queryDisable: false,
         store: {},
         dialogDetail: false,
         query: {},
@@ -102,21 +103,26 @@
         vi.store = {};
         vi.whiteListInfoList = [];
         vi.resetForm("query");
+        vi.queryDisable = false;
       },
       getStoreInfo() {
         var vi = this;
-        if (vi.vaildForm("query")) {
-          vi.loadingText = '搜尋中';
-          getWhiteListInfo(vi.query.whitelistType, vi.query.identity).then(res => {
-            vi.loadingText = null;
-            if (vi.checkResponseValue(res.result, "whiteListInfo")) {
-              vi.whiteListInfoList = vi.convertDataToArray(res.result.whiteListInfo);
-            } else
-              vi.createWarm("查無資料");
-          }).catch(error => {
-            vi.loadingText = null;
-          });
-        }
+
+        vi.$refs["query"].validate((valid) => {
+          if (valid) {
+            vi.loadingText = '搜尋中';
+            getWhiteListInfo(vi.query.whitelistType, vi.query.identity).then(res => {
+              vi.loadingText = null;
+              if (vi.checkResponseValue(res.result, "whiteListInfo")) {
+                vi.whiteListInfoList = vi.convertDataToArray(res.result.whiteListInfo);
+                vi.queryDisable = true;
+              } else
+                vi.createWarm("查無資料");
+            }).catch(error => {
+              vi.loadingText = null;
+            });
+          }
+        });
       }
     },
   };
