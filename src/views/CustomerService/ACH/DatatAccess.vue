@@ -30,7 +30,7 @@
         <div class="uploadBlock" v-if="action === '0'">
           <div class="el-form-item__label">
             <label class="importBtn">
-              <input type="file" @click="init" @change="selectFile" id="excelfile" style="display:none;" />
+              <input type="file" @click="init" @change="selectFile" id="uploadFile" style="display:none;" />
               瀏覽..
             </label>
           </div>
@@ -55,7 +55,7 @@
         </el-table-column>
         <el-table-column prop="fileName" label="檔案名稱" sortable>
         </el-table-column>
-        <el-table-column width="70" label="下載" align="center" >
+        <el-table-column width="70" label="下載" align="center">
           <template slot-scope="scope">
             <el-button @click="createFile(scope.row)" type="text" size="medium" icon="el-icon-download"></el-button>
           </template>
@@ -76,10 +76,10 @@
     getFileList,
     downloadFile,
     uploadFile
-  } from "@/api/CustomerService/ach";
+  } from "@/api/customerService/ach";
   import {
-  Notification
-} from 'element-ui'
+    Notification
+  } from 'element-ui'
 
   export default {
     name: "ACHDataAccess",
@@ -112,27 +112,29 @@
       },
       selectFile() {
         var vi = this;
-        vi.file = $("#excelfile")[0].files[0];
+        vi.file = $("#uploadFile")[0].files[0];
       },
       uploadFile() {
         var vi = this;
-        if(!vi.file)
-          vi.createWarm("請至少輸入一個查詢條件");
 
-        let formData = new FormData();
-        formData.append('fileType', '0');
-        formData.append('file', this.file);
+        if (vi.file.name === undefined)
+          vi.createWarm("尚未選擇檔案");
+        else {
+          let formData = new FormData();
+          formData.append('fileType', '0');
+          formData.append('file', vi.file);
 
-        vi.loadingText = '上傳中';
-        uploadFile(formData).then(res => {
-          vi.loadingText = null;
-          Notification.success({
-            title: "檔案上傳完成"
-          })
-          vi.init();
-        }).catch(error => {
-          vi.loadingText = null;
-        });
+          vi.loadingText = '上傳中';
+          uploadFile(formData).then(res => {
+            vi.loadingText = null;
+            Notification.success({
+              title: "檔案上傳完成"
+            })
+            vi.init();
+          }).catch(error => {
+            vi.loadingText = null;
+          });
+        }
       },
       createFile(row) {
         var vi = this;

@@ -190,8 +190,8 @@
         <pagination
           v-show="total>0"
           :total="total"
-          :page.sync="queryParams.pageNum"
-          :limit.sync="queryParams.pageSize"
+          :page.sync="queryParams.limit"
+          :limit.sync="queryParams.page"
           @pagination="getList"
         />
       </el-col>
@@ -394,8 +394,8 @@ export default {
       },
       // 查詢引數
       queryParams: {
-        pageNum: 1,
-        pageSize: 10,
+        limit: 1,
+        page: 10,
         userName: undefined,
         phonenumber: undefined,
         status: undefined,

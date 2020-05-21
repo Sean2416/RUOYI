@@ -1,6 +1,7 @@
 <template>
   <div :class="{'hidden':hidden}" class="pagination-container">
     <el-pagination
+      :hide-on-single-page=true
       :background="background"
       :current-page.sync="currentPage"
       :page-size.sync="pageSize"
@@ -48,7 +49,7 @@ export default {
     },
     autoScroll: {
       type: Boolean,
-      default: true
+      default: false
     },
     hidden: {
       type: Boolean,
@@ -75,7 +76,7 @@ export default {
   },
   methods: {
     handleSizeChange(val) {
-      this.$emit('pagination', { page: this.currentPage, limit: val })
+      this.$emit('pagination', { page: 1, limit: val })
       if (this.autoScroll) {
         scrollTo(0, 800)
       }
@@ -94,6 +95,7 @@ export default {
 .pagination-container {
   background: #fff;
   padding: 32px 16px;
+  margin-bottom: 20px !important;
 }
 .pagination-container.hidden {
   display: none;

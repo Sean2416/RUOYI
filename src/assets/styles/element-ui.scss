@@ -261,6 +261,21 @@
    border-right-color: rgba(232, 231, 231, 0.5)  !important;
 }
 
+.el-dialog__header {  
+  padding: 17px 25px 17px !important;
+  min-height: 40px !important;
+  background-color: #205f9a !important;
+}
+
+.el-dialog__title {
+  font-size: 20px !important;
+  color: #fdfeff !important;
+}
+
+.el-dialog__body {
+  padding: 0px 30px 20px 30px !important;
+}
+
 @media (max-width: 800px){
 
   .queryBlock{

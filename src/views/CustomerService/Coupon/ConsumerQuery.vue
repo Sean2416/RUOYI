@@ -57,7 +57,7 @@
     <el-card>
       <div slot="header" class="clearfix">
         <span>抵用券資料</span>
-        <el-button style="float: right; margin-right:10px" type="primary" plain icon="el-icon-refresh"
+        <el-button style="float: right; margin-right:10px" type="danger" plain icon="el-icon-refresh"
           v-if="coupon.couponType ==='P'" @click="resetPrintStatus()">重置列印狀態</el-button>
       </div>
       <el-form class="showInfo">
@@ -72,9 +72,6 @@
         </el-form-item>
         <el-form-item label="列印狀態" v-if="coupon.couponType ==='P'">
           <el-input placeholder="" v-model="coupon.couponPrintType">
-            <template slot="prepend">
-              <el-button @click="resetPrintStatus()" type="danger" icon="el-icon-refresh"></el-button>
-            </template>
           </el-input>
         </el-form-item>
         <el-form-item label="申請業者">
@@ -91,19 +88,17 @@
         </el-form-item>
       </el-form>
 
-      <el-table :data="coupon.couponTypeInfo" border style="width: 100%" empty-text="暫無資料">
-        <el-table-column type="index" width="40">
+      <el-table :data="coupon.couponTypeInfo" border style="width: 100%" empty-text="暫無資料" class="couponTable">        
+        <el-table-column width="50" label="明細">
+          <template slot-scope="scope">
+            <el-button @click="showDetail(scope.row)" type="text" size="medium" icon="el-icon-tickets"></el-button>
+          </template>
         </el-table-column>
         <el-table-column prop="typeName" label="抵用券類別" width="180" sortable>
         </el-table-column>
         <el-table-column prop="consumed" label="已使用金額" sortable>
         </el-table-column>
         <el-table-column prop="balance" label="剩餘金額	" sortable>
-        </el-table-column>
-        <el-table-column width="50" label="明細">
-          <template slot-scope="scope">
-            <el-button @click="showDetail(scope.row)" type="text" size="medium" icon="el-icon-tickets"></el-button>
-          </template>
         </el-table-column>
       </el-table>
     </el-card>
@@ -124,7 +119,10 @@
     getUserProfile,
     getCouponOverview,
     resetPrint
-  } from "@/api/CustomerService/coupon";
+  } from "@/api/customerService/coupon";
+  import {
+    MessageBox
+  } from 'element-ui'
 
   export default {
     name: "CouponConsumerQuery",
@@ -214,67 +212,24 @@
         }).catch(error => {
           vi.loadingText = null;
         });
-
-        // this.coupon = {
-        //   applyHotel: "夏一棧民宿",
-        //   applyTime: "2020/07/04 16:24:18",
-        //   couponType: "P",
-        //   printCode: "0600124569",
-        //   printTime: "2020/07/04 16:24:18",
-        //   consumed: "250",
-        //   balance: "550",
-        //   couponTypeInfo: [{
-        //       fundType: "0",
-        //       typeName: "夜市類",
-        //       consumed: "200",
-        //       balance: "0",
-        //       couponInfo: [{
-        //           couponId: "s3042908c1727978c77ce",
-        //           isUsed: "1",
-        //           consumeTime: "2020/06/03 10:23:45",
-        //           amount: "50",
-        //           storeName: "美味佳小吃店",
-        //           storeType: "0,1"
-        //         },
-        //         {
-        //           couponId: "s3042908c1727978c77cf",
-        //           isUsed: "0",
-        //           consumeTime: "",
-        //           amount: "",
-        //           storeName: "",
-        //           storeType: ""
-        //         }
-        //       ]
-        //     },
-        //     {
-        //       fundType: "2",
-        //       typeName: "商圈類",
-        //       consumed: "500",
-        //       balance: "500",
-        //       couponInfo: [{
-        //         couponId: "s3042908c1727978c77ce",
-        //         isUsed: "1",
-        //         consumeTime: "2020/06/03 10:23:45",
-        //         amount: "500",
-        //         storeName: "IKEA宜家家居 敦北店",
-        //         storeType: "1,2"
-        //       }]
-        //     },
-        //     {
-        //       fundType: "3",
-        //       typeName: "藝文類",
-        //       consumed: "0",
-        //       balance: "1000",
-        //       couponInfo: []
-        //     }
-        //   ]
-        // };
       },
       resetPrintStatus() {
         var vi = this;
-        
-        console.log( vi.selectedRow)
-        //API:  /coupon/resetPrint
+        MessageBox.confirm(
+          '確定要還原列印狀態?',
+          '警告', {
+            confirmButtonText: '確認',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }
+        ).then(() => {
+          vi.loadingText = '重置中';
+          resetPrint(vi.selectedRow.userId).then(res => {
+            vi.getCouponOverview(vi.selectedRow);
+          }).catch(error => {
+            vi.loadingText = null;
+          });
+        });
       },
     },
     watch: {
@@ -286,3 +241,11 @@
   };
 
 </script>
+
+<style scoped>
+.couponTable {
+    width: 90% !important;
+    margin-left: 3% !important;
+}
+
+</style>>

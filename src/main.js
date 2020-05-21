@@ -5,6 +5,7 @@ import Cookies from 'js-cookie'
 import 'normalize.css/normalize.css' // a modern alternative to CSS resets
 
 import Element from 'element-ui'
+import locale from 'element-ui/lib/locale/lang/zh-TW'
 import './assets/styles/element-variables.scss'
 
 import '@/assets/styles/index.scss' // global css
@@ -20,7 +21,7 @@ import { getDicts } from "@/api/system/dict/data";
 import { getConfigKey } from "@/api/system/config";
 import { parseTime, resetForm, addDateRange, selectDictLabel, download, handleTree } from "@/utils/ruoyi";
 import Pagination from "@/components/Pagination";
-import GenericMixin from '@/views/CustomerService/mixins/GenericMixin';
+import GenericMixin from '@/views/customerService/mixins/GenericMixin';
 
 Vue.mixin(GenericMixin);
 // 全域性方法掛載
@@ -59,7 +60,7 @@ Vue.use(permission)
  * please remove it before going online! ! !
  */
 
-Vue.use(Element, {
+Vue.use(Element, {locale,
   size: Cookies.get('size') || 'medium' // set element-ui default size
 })
 

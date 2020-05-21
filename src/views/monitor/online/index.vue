@@ -27,12 +27,12 @@
 
     <el-table
       v-loading="loading"
-      :data="list.slice((pageNum-1)*pageSize,pageNum*pageSize)"
+      :data="list.slice((limit-1)*page,limit*page)"
       style="width: 100%;"
     >
       <el-table-column label="序號" type="index" align="center">
         <template slot-scope="scope">
-          <span>{{(pageNum - 1) * pageSize + scope.$index + 1}}</span>
+          <span>{{(limit - 1) * page + scope.$index + 1}}</span>
         </template>
       </el-table-column>
       <el-table-column label="會話編號" align="center" prop="tokenId" :show-overflow-tooltip="true" />
@@ -60,7 +60,7 @@
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total>0" :total="total" :page.sync="pageNum" :limit.sync="pageSize" />
+    <pagination v-show="total>0" :total="total" :page.sync="limit" :limit.sync="page" />
   </div>
 </template>
 
@@ -77,8 +77,8 @@ export default {
       total: 0,
       // 表格資料
       list: [],
-      pageNum: 1,
-      pageSize: 10,
+      limit: 1,
+      page: 10,
       // 查詢引數
       queryParams: {
         ipaddr: undefined,
@@ -101,7 +101,7 @@ export default {
     },
     /** 搜尋按鈕操作 */
     handleQuery() {
-      this.pageNum = 1;
+      this.limit = 1;
       this.getList();
     },
     /** 重置按鈕操作 */

@@ -9,7 +9,7 @@
         <el-form-item label="查詢區間">
           <el-radio-group v-model="query.interval" :disabled="queryDisable">
             <el-radio :label="7">近一周</el-radio>
-            <el-radio :label="14">近三周</el-radio>
+            <el-radio :label="21">近三周</el-radio>
             <el-radio :label="0">自訂</el-radio>
           </el-radio-group>
         </el-form-item>
@@ -17,6 +17,12 @@
           <el-date-picker v-model="query.date" value-format="yyyy/MM/dd" type="daterange" range-separator="至"
             start-placeholder="開始日期" :disabled="query.interval !== 0 || queryDisable" end-placeholder="结束日期">
           </el-date-picker>
+        </el-form-item>
+        <el-form-item label="消費券類型">
+          <el-select v-model="query.couponType" :disabled="queryDisable">
+            <el-option v-for="item in couponType" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="帳號">
           <el-input :disabled="queryDisable" v-model="query.username" class="input-with-select" clearable>
@@ -27,7 +33,7 @@
           </el-input>
         </el-form-item>
         <el-form-item class="btnBlock">
-          <el-button type="primary" @click="getTransInfo" :disabled="queryDisable">查詢</el-button>
+          <el-button type="primary" @click="getTransInfo(query)" :disabled="queryDisable">查詢</el-button>
           <el-button @click="init" type="danger">清除</el-button>
         </el-form-item>
       </el-form>
@@ -51,8 +57,8 @@
       <pagination
       v-show="total > 0"
       :total="total"
-      :page.sync="query.pageNum"
-      :limit.sync="query.pageSize"
+      :page.sync="query.page"
+      :limit.sync="query.limit"
       @pagination="getTransInfo"
     />
 
@@ -63,9 +69,10 @@
 
 <script>
   import loadingPage from '@/views/tool/loading/LoadingPage';
+  var options = require('@/assets/js/options.js');
   import {
     getTransactionHistory
-  } from "@/api/CustomerService/coupon";
+  } from "@/api/customerService/coupon";
 
   export default {
     name: "CouponConsumptionHistory",
@@ -78,6 +85,7 @@
         couponInfoList: [],
         total: 0,
         loadingText: null,
+        couponType: options.couponType,
         queryDisable: false
       }
     },
@@ -90,10 +98,11 @@
         vi.query = {
           username: "",
           identity: "",
+          couponType: "A",
           interval: 7,
           date: vi.getDateInterval(7, 0),
-          pageNum: 1,
-          pageSize: 1
+          limit: 10,
+          page: 1
         };
         vi.couponInfoList = [];
         vi.total = 0;
@@ -107,11 +116,11 @@
         }
         return true;
       },
-      getTransInfo() {
+      getTransInfo(val) {
         var vi = this;
         if (vi.queryParamValid()) {
           vi.loadingText = '搜尋中';
-          getTransactionHistory(vi.query.identity, vi.query.username, "C", "-1" ,vi.query.date[0], vi.query.date[1], vi.query.pageSize.toString(), vi.query.pageNum.toString())
+          getTransactionHistory(vi.query.identity, vi.query.username, "C",vi.query.couponType ,"-1" ,vi.query.date[0], vi.query.date[1], val.limit.toString(), val.page.toString())
             .then(res => {
               vi.loadingText = null;
               if (vi.checkResponseValue(res.result, "couponInfo")) {

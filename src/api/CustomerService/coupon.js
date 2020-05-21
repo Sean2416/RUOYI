@@ -25,9 +25,9 @@ export function getCouponOverview(identity, username) {
   });  
 }
 
-export function resetPrint(identity) {
+export function resetPrint(userId) {
   const data = {
-    identity
+    userId
   }
   return request({
     url: '/coupon/resetPrint',
@@ -36,11 +36,12 @@ export function resetPrint(identity) {
   });  
 }
 
-export function getTransactionHistory(identity, username, role, storeType, startDate, endDate, rows, page) {
+export function getTransactionHistory(identity, username, role, couponType, storeType, startDate, endDate, rows, page) {
   const data = {
     identity,
     username,
     role,
+    couponType,
     storeType,
     startDate,
     endDate,

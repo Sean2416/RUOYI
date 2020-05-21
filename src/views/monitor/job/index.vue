@@ -126,8 +126,8 @@
     <pagination
       v-show="total>0"
       :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
+      :page.sync="queryParams.limit"
+      :limit.sync="queryParams.page"
       @pagination="getList"
     />
 
@@ -290,8 +290,8 @@ export default {
       statusOptions: [],
       // 查詢引數
       queryParams: {
-        pageNum: 1,
-        pageSize: 10,
+        limit: 1,
+        page: 10,
         jobName: undefined,
         jobGroup: undefined,
         status: undefined
@@ -360,7 +360,7 @@ export default {
     },
     /** 搜尋按鈕操作 */
     handleQuery() {
-      this.queryParams.pageNum = 1;
+      this.queryParams.limit = 1;
       this.getList();
     },
     /** 重置按鈕操作 */

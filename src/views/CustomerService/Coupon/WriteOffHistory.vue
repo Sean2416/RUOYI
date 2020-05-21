@@ -1,36 +1,28 @@
 <template>
   <div>
+    <loadingPage :loadingText="loadingText"></loadingPage>
     <el-card>
       <div slot="header" class="clearfix">
         <span>抵用券核銷查詢</span>
       </div>
       <el-form status-icon class="queryBlock" size="mini" :model="query" :rules="rules" ref="query">
-        <el-form-item label="查詢區間">
-          <el-radio-group v-model="query.interval">
-            <el-radio :label="7">近一周</el-radio>
-            <el-radio :label="14">近三周</el-radio>
-            <el-radio :label="0">自訂</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="自訂區間">
-          <el-date-picker v-model="query.date" value-format="yyyy/MM/dd" type="daterange" range-separator="至"
-            start-placeholder="開始日期" :disabled="query.interval !== 0 " end-placeholder="结束日期">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="店家證件號碼" prop="identity">
-          <el-input placeholder="请输入内容" v-model="query.identity" class="input-with-select" clearable>
+        <el-form-item label="店家帳號" prop="username">
+          <el-input placeholder="请输入内容" v-model="query.username" class="input-with-select" clearable>
           </el-input>
         </el-form-item>
         <el-form-item class="btnBlock">
-          <el-button type="primary" @click="getTransInfo">查詢</el-button>
-          <el-button  @click="init" type="danger">清除</el-button>
+          <el-button type="primary" @click="getTransInfo(query)">查詢</el-button>
+          <el-button @click="init" type="danger">清除</el-button>
         </el-form-item>
       </el-form>
     </el-card>
 
     <el-card class="detailCard">
-      <el-table :data="result.weeklyTransaction" border style="width: 100%" empty-text="暫無資料">
-        <el-table-column type="index" width="40">
+      <el-table :data="result.weeklyTransaction" border style="width: 100%" empty-text="暫無資料">        
+        <el-table-column width="70" label="明細" align="center" >
+          <template slot-scope="scope">
+            <el-button @click="showDetail(scope.row)" type="text" size="medium" icon="el-icon-tickets"></el-button>
+          </template>
         </el-table-column>
         <el-table-column prop="storeName" label="店名" sortable>
         </el-table-column>
@@ -44,23 +36,15 @@
         </el-table-column>
         <el-table-column prop="statusDesc" label="銷帳狀態" sortable>
         </el-table-column>
-        <el-table-column width="70" label="明細">
-          <template slot-scope="scope">
-            <el-button @click="showDetail(scope.row)" type="text" size="medium" icon="el-icon-tickets"></el-button>
-          </template>
-        </el-table-column>
       </el-table>
 
-       <pagination         
-          :total="total"
-          :page.sync="queryParams.pageNum"
-          :limit.sync="queryParams.pageSize"
-        />
+      <pagination v-show="total > 0" :total="total" :page.sync="query.page" :limit.sync="query.limit"
+        @pagination="getTransInfo" />
 
     </el-card>
 
-     <el-dialog title="週結明細" :visible.sync="dialogDetail" width="80%">
-      <detailTable :weekData= weekData></detailTable>
+    <el-dialog title="週結明細" :visible.sync="dialogDetail" width="80%">
+      <detailTable :weekData=weekData :userName=query.username :isDialogVisible= dialogDetail></detailTable>
     </el-dialog>
 
   </div>
@@ -68,28 +52,31 @@
 
 
 <script>
+  import loadingPage from '@/views/tool/loading/LoadingPage';
   import detailTable from './WriteOffDetailTable';
+  import {
+    getweeklyTx,
+  } from "@/api/customerService/payment";
 
   export default {
     name: "CouponWriteOffHistory",
     components: {
-      detailTable
+      detailTable,
+      loadingPage
     },
     data() {
       return {
         query: {},
-        weekData:{},
+        weekData: {},
         result: {},
         dialogDetail: false,
-        total: 2,
-        queryParams: {
-          pageNum: 1,
-          pageSize: 10
-        },
+        loadingText: null,
+        queryDisable: false,
+        total: 0,
         rules: {
-          identity: [{
+          username: [{
             required: true,
-            message: '請輸入統編/證號',
+            message: '請輸店家帳號',
             trigger: ['blur', 'change']
           }],
         }
@@ -102,72 +89,51 @@
       init() {
         var vi = this;
         vi.query = {
-          identity: '',
-          interval: 7,
-          date: vi.getDateInterval(7, 0)
+          username: "",
+          page: 1,
+          limit: 10
         };
         vi.result = {};
         vi.weekData = {};
         vi.resetForm("query");
+        vi.queryDisable = false;
       },
       showDetail(row) {
         this.dialogDetail = true;
         this.weekData = row;
       },
-      getTransInfo() {
-        // API /payment/weeklyTx
-
-        this.result = {
-          "incomeTotal": 5500,
-          "storeName" : "小吃店",
-          "dailyTransaction": [{
-              "showDate": "2020/04/09 (三)",
-              "showAmount": 1000
-            },
-            {
-              "showDate": "2020/04/08 (二)",
-              "showAmount": 1000
-            },
-            {
-              "showDate": "2020/04/07 (一)",
-              "showAmount": 1000
-            }
-          ],
-          "weeklyTransaction": [{
-              "weeklyTxId": 849,
-              "startDate": "2020/04/27",
-              "endDate": "2020/05/03",
-              "totalAmount": 3000,
-              "isConfirm": "Y",
-              "statusDesc": "待確認"
-            },
-            {
-              "weeklyTxId": 850,
-              "startDate": "2020/05/04",
-              "endDate": "2020/05/11",
-              "totalAmount": 2500,
-              "isConfirm": "N",
-              "statusDesc": "待確認"
-            }
-          ]
-        };
-        this.setColumnLabel();
+      getTransInfo(val) {
+        var vi = this;
+        console.log(val)
+        vi.$refs["query"].validate((valid) => {
+          if (valid) {
+            vi.loadingText = '搜尋中';
+            getweeklyTx(vi.query.username, val.limit.toString(), val.page.toString()).then(res => {
+              vi.loadingText = null;
+              console.log(res.result)
+              if (vi.checkResponseValue(res.result, "weeklyTransaction")) {
+                vi.total = res.result.totalRecords;
+                vi.result.weeklyTransaction = vi.convertDataToArray(res.result.weeklyTransaction);
+                vi.queryDisable = true;
+                vi.setColumnLabel();
+              } else
+                vi.createWarm("查無資料");
+            }).catch(error => {
+              vi.loadingText = null;
+            });
+          }
+        });
       },
       setColumnLabel() {
         var vi = this;
 
         vi.result.weeklyTransaction.forEach(element => {
-          element.storeName = vi.result.storeName;
-          element.interval = element.startDate + "~" +element.endDate;
+          element.interval = element.weekStart + "~" + element.weekEnd;
           element.isConfirmLabel = vi.convertStatusFromString(element.isConfirm);
         });
       },
     },
     watch: {
-      'query.interval'() {
-        var vi = this;
-        vi.query.date = vi.getDateInterval(vi.query.interval, 0)
-      },
     }
   };
 

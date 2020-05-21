@@ -65,7 +65,7 @@
   import loadingPage from '@/views/tool/loading/LoadingPage';
   import {
     getWhiteListInfo
-  } from "@/api/CustomerService/whiteList";
+  } from "@/api/customerService/whiteList";
   export default {
     name: "WhiteListQuery",
     components: {

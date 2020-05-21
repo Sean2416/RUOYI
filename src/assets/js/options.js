@@ -1,7 +1,7 @@
 module.exports = {
   couponType: [{
-    value: null,
-    label: ''
+    value: 'A',
+    label: '全部'
   }, {
     value: 'E',
     label: '電子'
