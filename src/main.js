@@ -21,7 +21,7 @@ import { getDicts } from "@/api/system/dict/data";
 import { getConfigKey } from "@/api/system/config";
 import { parseTime, resetForm, addDateRange, selectDictLabel, download, handleTree } from "@/utils/ruoyi";
 import Pagination from "@/components/Pagination";
-import GenericMixin from '@/views/customerService/mixins/GenericMixin';
+import GenericMixin from '@/views/CustomerService/mixins/GenericMixin';
 
 Vue.mixin(GenericMixin);
 // 全域性方法掛載

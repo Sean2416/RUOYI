@@ -43,7 +43,7 @@
   import store from './StoreTable';
   import {
     getUserProfile
-  } from "@/api/customerService/coupon";
+  } from "@/api/CustomerService/coupon";
 
   export default {
     name: "BasicInfoQuery",

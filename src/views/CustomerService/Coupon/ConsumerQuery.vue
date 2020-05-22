@@ -119,7 +119,7 @@
     getUserProfile,
     getCouponOverview,
     resetPrint
-  } from "@/api/customerService/coupon";
+  } from "@/api/CustomerService/coupon";
   import {
     MessageBox
   } from 'element-ui'

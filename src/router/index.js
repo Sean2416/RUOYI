@@ -55,11 +55,11 @@ export const constantRoutes = [
   {
     path: '',
     component: Layout,
-    redirect: '/',
+    redirect: 'index',
     children: [
       {
-        path: '/',
-        component: () => import('@/views/customerService/BasicInfo/Query'),
+        path: 'index',
+        component: () => import('@/views/CustomerService/BasicInfo/Query'),
         name: '首頁',
         meta: { title: '首頁', icon: 'dashboard', noCache: true, affix: true }
       }
@@ -86,7 +86,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'query',
-        component: () => import('@/views/customerService/WhiteList/Query'),
+        component: () => import('@/views/CustomerService/WhiteList/Query'),
         name: 'WhiteListQuery',
         meta: { title: '白名單查詢', icon: '' }
       }
@@ -99,7 +99,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'datatAccess',
-        component: () => import('@/views/customerService/ACH/DatatAccess'),
+        component: () => import('@/views/CustomerService/ACH/DatatAccess'),
         name: 'ACHDataAccess',
         meta: { title: 'ACH上傳、下載', icon: '' }
       }
@@ -112,25 +112,25 @@ export const constantRoutes = [
     children: [
       {
         path: 'consumerQuery',
-        component: () => import('@/views/customerService/Coupon/ConsumerQuery'),
+        component: () => import('@/views/CustomerService/Coupon/ConsumerQuery'),
         name: 'CouponConsumerQuery',
         meta: { title: '抵用券狀態查詢', icon: '' }
       },
       {
         path: 'consumptionHistory',
-        component: () => import('@/views/customerService/Coupon/ConsumptionHistory'),
+        component: () => import('@/views/CustomerService/Coupon/ConsumptionHistory'),
         name: 'CouponConsumptionHistory',
         meta: { title: '消費紀錄查詢', icon: '' }
       },
       {
         path: 'chargeHistory',
-        component: () => import('@/views/customerService/Coupon/ChargeHistory'),
+        component: () => import('@/views/CustomerService/Coupon/ChargeHistory'),
         name: 'CouponChargeHistoryHistory',
         meta: { title: '收款紀錄查詢', icon: '' }
       },
       {
         path: 'writeOffHistory',
-        component: () => import('@/views/customerService/Coupon/WriteOffHistory'),
+        component: () => import('@/views/CustomerService/Coupon/WriteOffHistory'),
         name: 'CouponWriteOffHistory',
         meta: { title: '抵用券核銷查詢', icon: '' }
       }
@@ -143,7 +143,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'query',
-        component: () => import('@/views/customerService/BasicInfo/Query'),
+        component: () => import('@/views/CustomerService/BasicInfo/Query'),
         name: 'basicInfoQuery',
         meta: { title: '消費者/店家基本資料查詢', icon: '' }
       }

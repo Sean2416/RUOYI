@@ -72,7 +72,7 @@
   var options = require('@/assets/js/options.js');
   import {
     getTransactionHistory
-  } from "@/api/customerService/coupon";
+  } from "@/api/CustomerService/coupon";
 
   export default {
     name: "CouponConsumptionHistory",

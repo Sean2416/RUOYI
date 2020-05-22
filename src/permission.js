@@ -22,7 +22,7 @@ router.beforeEach((to, from, next) => {
     /* has token*/
     if (to.path === '/login') {
       next({
-        path: '/index'
+        path: '/'
       })
       NProgress.done()
     } else {

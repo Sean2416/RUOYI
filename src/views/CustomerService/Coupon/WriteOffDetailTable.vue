@@ -20,7 +20,7 @@
   import loadingPage from '@/views/tool/loading/LoadingPage';
   import {
     getweeklyTxDtl
-  } from "@/api/customerService/payment";
+  } from "@/api/CustomerService/payment";
 
   export default {
     name: "CustomerInfo",

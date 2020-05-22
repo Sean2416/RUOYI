@@ -56,7 +56,7 @@
   import detailTable from './WriteOffDetailTable';
   import {
     getweeklyTx,
-  } from "@/api/customerService/payment";
+  } from "@/api/CustomerService/payment";
 
   export default {
     name: "CouponWriteOffHistory",

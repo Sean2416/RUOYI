@@ -76,7 +76,7 @@
     getFileList,
     downloadFile,
     uploadFile
-  } from "@/api/customerService/ach";
+  } from "@/api/CustomerService/ach";
   import {
     Notification
   } from 'element-ui'

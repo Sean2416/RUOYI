@@ -3,7 +3,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
       <h3 class="title">振興券客服管理系統</h3>
       <el-form-item prop="username">
-        <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="賬號">
+        <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="帳號">
           <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
         </el-input>
       </el-form-item>
@@ -22,7 +22,6 @@
           <img :src="codeUrl" @click="getCode" />
         </div>
       </el-form-item>
-      <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">記住密碼</el-checkbox>
       <el-form-item style="width:100%;">
         <el-button :loading="loading" size="medium" type="primary" style="width:100%;"
           @click.native.prevent="handleLogin">
@@ -115,28 +114,13 @@
         this.$refs.loginForm.validate(valid => {
           if (valid) {
             this.loading = true;
-            if (this.loginForm.rememberMe) {
-              Cookies.set("username", this.loginForm.username, {
-                expires: 30
-              });
-              Cookies.set("password", encrypt(this.loginForm.password), {
-                expires: 30
-              });
-              Cookies.set('rememberMe', this.loginForm.rememberMe, {
-                expires: 30
-              });
-            } else {
-              Cookies.remove("username");
-              Cookies.remove("password");
-              Cookies.remove('rememberMe');
-            }
+
             this.$store
               .dispatch("Login", this.loginForm)
               .then(() => {
                 this.$router.push({
                   path: this.redirect || "/"
                 });
-                this.loading = false;
               })
               .catch(() => {
                 this.loading = false;
