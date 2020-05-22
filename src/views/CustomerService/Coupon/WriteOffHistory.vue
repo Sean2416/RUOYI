@@ -108,7 +108,7 @@
         vi.$refs["query"].validate((valid) => {
           if (valid) {
             vi.loadingText = '搜尋中';
-            getweeklyTx(vi.query.username, val.limit.toString(), val.page.toString()).then(res => {
+            getweeklyTx(vi.query.username, val.limit, val.page).then(res => {
               vi.loadingText = null;
               console.log(res.result)
               if (vi.checkResponseValue(res.result, "weeklyTransaction")) {

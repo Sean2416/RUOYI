@@ -68,7 +68,7 @@
       getDetail(val) {
         var vi = this;
         vi.loadingText = '搜尋中';
-        getweeklyTxDtl(vi.userName, vi.weekData.weeklyTxId, val.limit.toString(), val.page.toString())
+        getweeklyTxDtl(vi.userName, vi.weekData.weeklyTxId, val.limit, val.page)
           .then(res => {
             vi.loadingText = null;
             if (vi.checkResponseValue(res.result, "weeklyTxDtl")) {

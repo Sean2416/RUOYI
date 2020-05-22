@@ -55,10 +55,10 @@ export const constantRoutes = [
   {
     path: '',
     component: Layout,
-    redirect: 'index',
+    redirect: '/',
     children: [
       {
-        path: 'index',
+        path: '/',
         component: () => import('@/views/customerService/BasicInfo/Query'),
         name: '首頁',
         meta: { title: '首頁', icon: 'dashboard', noCache: true, affix: true }

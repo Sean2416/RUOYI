@@ -120,7 +120,7 @@
         var vi = this;
         if (vi.queryParamValid()) {
           vi.loadingText = '搜尋中';
-          getTransactionHistory(vi.query.identity, vi.query.username, "S",vi.query.couponType, "-1" ,vi.query.date[0], vi.query.date[1], val.limit.toString(), val.page.toString())
+          getTransactionHistory(vi.query.identity, vi.query.username, "S",vi.query.couponType, "-1" ,vi.query.date[0], vi.query.date[1], val.limit, val.page)
             .then(res => {
               vi.loadingText = null;
               if (vi.checkResponseValue(res.result, "couponInfo")) {
