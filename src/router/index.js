@@ -150,8 +150,10 @@ export const constantRoutes = [
     ]
   }
 ]
+console.log(process.env.BASE_URL)
 
 export default new Router({
+  base: process.env.BASE_URL,
   mode: 'history', // 去掉url中的#
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes

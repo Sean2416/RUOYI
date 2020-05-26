@@ -17,7 +17,7 @@ module.exports = {
   // 部署生產環境和開發環境下的URL。
   // 預設情況下，Vue CLI 會假設你的應用是被部署在一個域名的根路徑上
   // 例如 https://www.ruoyi.vip/。如果應用被部署在一個子路徑上，你就需要用這個選項指定這個子路徑。例如，如果你的應用被部署在 https://www.ruoyi.vip/admin/，則設定 baseUrl 為 /admin/。
-  publicPath: process.env.NODE_ENV === "production" ? "/" : "/",
+  publicPath: process.env.PUBLIC_PATH,
   // 在npm run build 或 yarn build 時 ，生成檔案的目錄名稱（要和baseUrl的生產環境路徑一致）（預設dist）
   outputDir: 'dist',
   // 用於放置生成的靜態資源 (js、css、img、fonts) 的；（專案打包之後，靜態資源會放在這個資料夾下）
